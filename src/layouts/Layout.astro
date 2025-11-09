@@ -1,92 +1,131 @@
 ---
 import * as S from "@effect/schema/Schema";
+import "../styles/global.css";
 
 const Props = S.Struct({
-	title: S.String,
-	description: S.String,
+  title: S.String,
+  description: S.String,
+  image: S.optional(S.String),
+  ogType: S.optional(S.String),
 });
 
-const { title, description } = Astro.props as S.Schema.Type<typeof Props>;
+const {
+  title,
+  description,
+  image = "/favicon.svg",
+  ogType = "website",
+} = Astro.props as S.Schema.Type<typeof Props>;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL(image, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://app.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://app.posthog.com;" />
-<meta http-equiv="X-Frame-Options" content="DENY" />
-<meta http-equiv="X-Content-Type-Options" content="nosniff" />
-<meta name="Referrer-Policy" content="strict-origin-when-cross-origin" />
-<meta name="Permissions-Policy" content="geolocation=(), microphone=(), camera=()" />
-<meta name="description" content={description} />
-<meta name="viewport" content="width=device-width" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<title>{title}</title>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Elysium",
-  "url": "https://elysium.example.com",
-  "logo": "https://elysium.example.com/favicon.svg"
-}
-</script>
-<script src="@/lib/posthog.ts"></script>
-</head>
-<body>
-	<div class="background-effects">
-		<div class="blob blob1"></div>
-		<div class="blob blob2"></div>
-		<div class="blob blob3"></div>
-		<div class="grain"></div>
-	</div>
-	<slot />
-</body>
+<html lang="en" data-theme="elysium">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Security Headers -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://app.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://app.posthog.com;"
+    />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta
+      name="Permissions-Policy"
+      content="geolocation=(), microphone=(), camera=()"
+    />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#8B5CF6" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:site_name" content="Elysium" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:creator" content="@ElysiumOSS" />
+
+    <!-- Additional SEO Tags -->
+    <meta
+      name="keywords"
+      content="elysium, open source, development tools, framework, OSS, purple theme, modern development"
+    />
+    <meta name="author" content="Elysium OSS" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "Elysium",
+        description: description,
+        url: "https://elysium.tools",
+        logo: "https://elysium.tools/favicon.svg",
+        sameAs: [
+          "https://github.com/ElysiumOSS",
+          "https://github.com/ElysiumOSS/elysium",
+        ],
+        founder: {
+          "@type": "Organization",
+          name: "Elysium OSS",
+        },
+        knowsAbout: [
+          "Open Source Software",
+          "Web Development",
+          "Software Engineering",
+          "Development Tools",
+        ],
+      })}
+    />
+
+    <!-- PostHog Analytics -->
+    <script src="@/lib/posthog.ts"></script>
+  </head>
+  <body>
+    <div class="background-effects">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+      <div class="blob blob3"></div>
+      <div class="grain"></div>
+    </div>
+    <slot />
+  </body>
 </html>
 
 <style is:global>
-:root {
---color-primary-hsl: 255, 85%, 60%;
---color-secondary-hsl: 280, 80%, 70%;
---color-accent-hsl: 300, 85%, 65%;
---color-dark-hsl: 250, 30%, 10%;
---color-text-hsl: 255, 20%, 85%;
---color-text-muted-hsl: 255, 15%, 55%;
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
---color-primary: hsl(var(--color-primary-hsl));
---color-secondary: hsl(var(--color-secondary-hsl));
---color-accent: hsl(var(--color-accent-hsl));
---color-dark: hsl(var(--color-dark-hsl));
---color-text: hsl(var(--color-text-hsl));
---color-text-muted: hsl(var(--color-text-muted-hsl));
-}
-
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-}
-
-html {
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-background-color: var(--color-dark);
-color: var(--color-text);
-scroll-behavior: smooth;
-scrollbar-width: none; /* Firefox */
-}
-
-html::-webkit-scrollbar {
-display: none; /* Safari and Chrome */
-}
-
-body {
-line-height: 1.6;
-overflow-x: hidden;
-background: transparent;
-}
-
-.background-effects {
+  .background-effects {
     position: fixed;
     top: 0;
     left: 0;
@@ -94,59 +133,83 @@ background: transparent;
     height: 100vh;
     z-index: -1;
     overflow: hidden;
-}
+  }
 
-.blob {
+  .blob {
     position: absolute;
     border-radius: 50%;
     filter: blur(120px);
     opacity: 0.3;
-}
+  }
 
-.blob1 {
+  .blob1 {
     width: 600px;
     height: 600px;
     top: -150px;
     left: -150px;
-    background: linear-gradient(180deg, hsl(var(--color-primary-hsl), 0.5) 0%, hsl(var(--color-secondary-hsl), 0.5) 100%);
+    background: linear-gradient(
+      180deg,
+      hsl(var(--color-primary-hsl), 0.5) 0%,
+      hsl(var(--color-secondary-hsl), 0.5) 100%
+    );
     animation: move-blob-1 25s infinite alternate;
-}
+  }
 
-.blob2 {
+  .blob2 {
     width: 500px;
     height: 500px;
     bottom: -200px;
     right: -200px;
-    background: linear-gradient(180deg, hsl(var(--color-secondary-hsl), 0.5) 0%, hsl(var(--color-accent-hsl), 0.5) 100%);
+    background: linear-gradient(
+      180deg,
+      hsl(var(--color-secondary-hsl), 0.5) 0%,
+      hsl(var(--color-accent-hsl), 0.5) 100%
+    );
     animation: move-blob-2 20s infinite alternate;
-}
+  }
 
-.blob3 {
+  .blob3 {
     width: 400px;
     height: 400px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(180deg, hsl(var(--color-accent-hsl), 0.5) 0%, hsl(var(--color-primary-hsl), 0.5) 100%);
+    background: linear-gradient(
+      180deg,
+      hsl(var(--color-accent-hsl), 0.5) 0%,
+      hsl(var(--color-primary-hsl), 0.5) 100%
+    );
     animation: move-blob-3 30s infinite alternate;
-}
+  }
 
-@keyframes move-blob-1 {
-    from { transform: translate(0, 0) scale(1); }
-    to { transform: translate(100px, 50px) scale(1.2); }
-}
+  @keyframes move-blob-1 {
+    from {
+      transform: translate(0, 0) scale(1);
+    }
+    to {
+      transform: translate(100px, 50px) scale(1.2);
+    }
+  }
 
-@keyframes move-blob-2 {
-    from { transform: translate(0, 0) scale(1); }
-    to { transform: translate(-80px, -40px) scale(0.8); }
-}
+  @keyframes move-blob-2 {
+    from {
+      transform: translate(0, 0) scale(1);
+    }
+    to {
+      transform: translate(-80px, -40px) scale(0.8);
+    }
+  }
 
-@keyframes move-blob-3 {
-    from { transform: rotate(0deg) scale(1); }
-    to { transform: rotate(180deg) scale(1.1); }
-}
+  @keyframes move-blob-3 {
+    from {
+      transform: rotate(0deg) scale(1);
+    }
+    to {
+      transform: rotate(180deg) scale(1.1);
+    }
+  }
 
-.grain {
+  .grain {
     position: absolute;
     top: 0;
     left: 0;
@@ -155,24 +218,23 @@ background: transparent;
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
     opacity: 0.03;
     pointer-events: none;
-}
+  }
 
-h1, h2, h3, h4, h5, h6 {
-line-height: 1.2;
-font-weight: 600;
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.2;
+    font-weight: 600;
+  }
 
-a {
-color: var(--color-primary);
-text-decoration: none;
-transition: color 0.3s ease;
-}
+  a {
+    transition: color 0.3s ease;
+  }
 
-a:hover {
-color: hsl(var(--color-primary-hsl), 0.8);
-}
-
-button {
-cursor: pointer;
-}
+  button {
+    cursor: pointer;
+  }
 </style>

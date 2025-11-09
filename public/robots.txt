@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://elysium.example.com/sitemap-index.xml
+Sitemap: https://elysium.tools/sitemap-index.xml
