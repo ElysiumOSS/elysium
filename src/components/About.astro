@@ -1,0 +1,179 @@
+<section class="about" id="about">
+<div class="container">
+<div class="about-content">
+<div class="about-text">
+<h2>About Elysium</h2>
+<p>
+Elysium is a sacred realm inspired by Greek mythology—a place of rest, reflection, and rebirth of ideas.
+This organization houses a growing collection of libraries and tools of all kinds, representing a solo
+journey of creation, exploration, and continuous development.
+</p>
+<p>
+Each project in the Garden is built with intention, crafted to solve real problems while maintaining
+elegance and simplicity. Whether you're looking for state management, UI components, database utilities,
+or developer tools, you'll find them here in our ever-growing collection.
+</p>
+
+<div class="symbolism">
+<div class="symbol">
+<span class="symbol-icon">🌸</span>
+<div>
+<h4>Gladiolus</h4>
+<p>Strength and moral integrity at the heart of every tool.</p>
+</div>
+</div>
+<div class="symbol">
+<span class="symbol-icon">💜</span>
+<div>
+<h4>Purple</h4>
+<p>Creativity and imagination woven into every design.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="about-links">
+<h3>Connect</h3>
+<div class="links-grid">
+<a href="#" class="link-btn">
+<span class="link-icon">→</span>
+GitHub
+</a>
+<a href="#" class="link-btn">
+<span class="link-icon">→</span>
+Open Collective
+</a>
+<a href="#" class="link-btn">
+<span class="link-icon">→</span>
+Ko-fi
+</a>
+<a href="#" class="link-btn">
+<span class="link-icon">→</span>
+Buy Me a Coffee
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<style>
+.about {
+padding: 6rem 1rem;
+background: rgba(15, 10, 26, 0.5);
+backdrop-filter: blur(10px);
+border-top: 1px solid rgba(167, 139, 250, 0.1);
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.about-content {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 4rem;
+align-items: start;
+}
+
+.about-text h2 {
+font-size: clamp(2rem, 5vw, 2.5rem);
+color: var(--color-primary);
+margin-bottom: 1.5rem;
+}
+
+.about-text p {
+color: var(--color-text-muted);
+font-size: 1rem;
+line-height: 1.8;
+margin-bottom: 1.5rem;
+}
+
+.symbolism {
+display: flex;
+flex-direction: column;
+gap: 1.5rem;
+margin-top: 2rem;
+padding-top: 2rem;
+border-top: 1px solid rgba(167, 139, 250, 0.1);
+}
+
+.symbol {
+display: flex;
+gap: 1rem;
+}
+
+.symbol-icon {
+font-size: 2rem;
+display: block;
+flex-shrink: 0;
+}
+
+.symbol h4 {
+color: var(--color-light);
+font-size: 1rem;
+margin-bottom: 0.35rem;
+}
+
+.symbol p {
+color: var(--color-text-muted);
+font-size: 0.9rem;
+margin-bottom: 0;
+}
+
+.about-links h3 {
+color: var(--color-primary);
+font-size: 1.5rem;
+margin-bottom: 1.5rem;
+}
+
+.links-grid {
+display: grid;
+gap: 1rem;
+}
+
+.link-btn {
+display: flex;
+align-items: center;
+gap: 0.75rem;
+padding: 1rem 1.25rem;
+background-color: rgba(167, 139, 250, 0.1);
+border: 1px solid rgba(167, 139, 250, 0.2);
+border-radius: 0.5rem;
+color: var(--color-text);
+font-weight: 500;
+transition: all 0.3s ease;
+}
+
+.link-btn:hover {
+background-color: rgba(167, 139, 250, 0.2);
+border-color: var(--color-primary);
+transform: translateX(4px);
+}
+
+.link-icon {
+font-size: 1.2rem;
+transition: transform 0.3s ease;
+}
+
+.link-btn:hover .link-icon {
+transform: translateX(4px);
+}
+
+ @media (max-width: 768px) {
+.about {
+padding: 4rem 1rem;
+}
+
+.about-content {
+grid-template-columns: 1fr;
+gap: 2.5rem;
+}
+
+.symbolism {
+margin-top: 1.5rem;
+padding-top: 1.5rem;
+}
+}
+</style>

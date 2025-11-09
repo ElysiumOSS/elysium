@@ -1,0 +1,100 @@
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-section">
+<h4>Elysium</h4>
+<p>Building meaningful tools for creation and exploration.</p>
+</div>
+<div class="footer-links">
+<a href="https://github.com/WomB0ComB0">GitHub</a>
+<a href="#">Docs</a>
+<a href="#">Discord</a>
+<a href="#">Twitter</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2025 Elysium. Built with care and creativity.</p>
+</div>
+</div>
+</footer>
+
+<style>
+.footer {
+background-color: rgba(15, 10, 26, 0.5);
+backdrop-filter: blur(10px);
+border-top: 1px solid rgba(167, 139, 250, 0.08);
+padding: 3rem 1rem 2rem;
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+}
+
+.footer-content {
+display: grid;
+grid-template-columns: 1fr auto;
+gap: 4rem;
+align-items: start;
+margin-bottom: 2rem;
+padding-bottom: 2rem;
+border-bottom: 1px solid rgba(167, 139, 250, 0.08);
+}
+
+.footer-section h4 {
+color: var(--color-primary);
+font-size: 0.9rem;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+margin-bottom: 0.5rem;
+font-weight: 600;
+}
+
+.footer-section p {
+color: var(--color-text-muted);
+font-size: 0.9rem;
+line-height: 1.6;
+}
+
+.footer-links {
+display: flex;
+gap: 2rem;
+flex-wrap: wrap;
+}
+
+.footer-links a {
+color: var(--color-text-muted);
+font-size: 0.9rem;
+transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+color: var(--color-primary);
+}
+
+.footer-bottom {
+text-align: center;
+}
+
+.footer-bottom p {
+color: var(--color-text-muted);
+font-size: 0.85rem;
+}
+
+ @media (max-width: 768px) {
+.footer {
+padding: 2rem 1rem;
+}
+
+.footer-content {
+grid-template-columns: 1fr;
+gap: 1.5rem;
+margin-bottom: 1.5rem;
+padding-bottom: 1.5rem;
+}
+
+.footer-links {
+gap: 1rem;
+}
+}
+</style>
