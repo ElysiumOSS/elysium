@@ -25,7 +25,7 @@
  */
 
 import { ensureBaseError, isBaseError } from './error';
-import { onRequestError } from '../core';
+import { onRequestError } from '@/core/constants';
 import { logger } from './utils';
 
 /**

@@ -1,7 +1,7 @@
 import { Elysia, t } from 'elysia';
 import { writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
-import { ogs, userAgent } from '@/lib/ogs';
+import { ogs, userAgent } from '../../../lib/ogs';
 
 export const mediaRoutes = new Elysia()
     .post('/upload-image', async ({ body, set }) => {

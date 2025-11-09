@@ -1,8 +1,8 @@
 import { createElysiaApp } from '@/core/create-elysia-app';
-import { authRoute } from '@/api/routes/auth';
-import { mediaRoutes } from '@/api/routes/media';
-import { protectedRoute } from '@/api/routes/protected';
-import { utilityRoute } from '@/api/routes/utility';
+import { authRoute } from '@/api/routes/auth/index';
+import { mediaRoutes } from '@/api/routes/media/index';
+import { protectedRoute } from '@/api/routes/protected/index';
+import { utilityRoute } from '@/api/routes/utility/index';
 import { swagger } from '@elysiajs/swagger';
 
 const app = createElysiaApp({

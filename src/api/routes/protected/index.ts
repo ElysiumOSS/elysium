@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia';
 import { record } from '@elysiajs/opentelemetry';
-import { Stringify } from '../../core/utils';
-import { requireAuth } from './auth';
+import { Stringify } from '@/core/utils';
+import { requireAuth } from '../auth';
 
 export const protectedRoute = new Elysia()
   .use(requireAuth)

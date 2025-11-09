@@ -1,12 +1,12 @@
 import { Elysia } from 'elysia';
 import { record } from '@elysiajs/opentelemetry';
-import { Stringify } from '../../core/utils';
+import { Stringify } from '@/core/utils';
 
 /**
  * The current application version, loaded from package.json.
  * @type {string}
  */
-const version: string = await import('../../../package.json').then(pkg => pkg.version).catch(() => 'N/A');
+const version: string = await import('../../../../package.json').then(pkg => pkg.version).catch(() => 'N/A');
 
 export const utilityRoute = new Elysia()
   .get('/', () =>
