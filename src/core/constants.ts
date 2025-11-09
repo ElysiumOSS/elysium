@@ -1,8 +1,8 @@
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
-import { resourceFromAttributes } from '@opentelemetry/resources';
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node';
-import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
-import * as Sentry from '@sentry/node';
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
+import * as Sentry from "@sentry/node";
 
 /**
  * Check if running on Vercel
@@ -15,12 +15,12 @@ export const IS_VERCEL = !!process.env.VERCEL;
  * @type {object}
  */
 export const permission = {
-  SELF: "'self'",
-  UNSAFE_INLINE: "'unsafe-inline'",
-  HTTPS: 'https:',
-  DATA: 'data:',
-  NONE: "'none'",
-  BLOB: 'blob:',
+	SELF: "'self'",
+	UNSAFE_INLINE: "'unsafe-inline'",
+	HTTPS: "https:",
+	DATA: "data:",
+	NONE: "'none'",
+	BLOB: "blob:",
 } as const;
 
 /**
@@ -29,7 +29,7 @@ export const permission = {
  * @type {import(' @opentelemetry/resources').Resource}
  */
 export const otelResource = resourceFromAttributes({
-  [ATTR_SERVICE_NAME]: 'elysium.elysia-api',
+	[ATTR_SERVICE_NAME]: "elysium.elysia-api",
 });
 
 /**
@@ -38,11 +38,11 @@ export const otelResource = resourceFromAttributes({
  * @type {OTLPTraceExporter | undefined}
  */
 export const otlpExporter = !IS_VERCEL
-  ? new OTLPTraceExporter({
-      url: 'http://localhost:4318/v1/traces',
-      keepAlive: true,
-    })
-  : undefined;
+	? new OTLPTraceExporter({
+			url: "http://localhost:4318/v1/traces",
+			keepAlive: true,
+		})
+	: undefined;
 
 /**
  * Batch span processor for OpenTelemetry.
@@ -51,19 +51,19 @@ export const otlpExporter = !IS_VERCEL
  * @type {BatchSpanProcessor | undefined}
  */
 export const batchSpanProcessor = otlpExporter
-  ? new BatchSpanProcessor(otlpExporter, {
-      maxExportBatchSize: 512,
-      scheduledDelayMillis: 5_000,
-      exportTimeoutMillis: 30_000,
-      maxQueueSize: 2_048,
-    })
-  : undefined;
+	? new BatchSpanProcessor(otlpExporter, {
+			maxExportBatchSize: 512,
+			scheduledDelayMillis: 5_000,
+			exportTimeoutMillis: 30_000,
+			maxQueueSize: 2_048,
+		})
+	: undefined;
 
 /**
  * The current application version, loaded from package.json.
  * @type {string}
  */
-export const version: string = '1.0.0'; // Placeholder, will be replaced by actual version from package.json
+export const version: string = "1.0.0"; // Placeholder, will be replaced by actual version from package.json
 
 /**
  * Error handler function that captures and reports request errors to Sentry.

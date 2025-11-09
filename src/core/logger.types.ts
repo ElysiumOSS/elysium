@@ -18,7 +18,14 @@
  * @type ColorKey
  * @description The color key for the logger.
  */
-export type ColorKey = 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' | 'white';
+export type ColorKey =
+	| "red"
+	| "green"
+	| "yellow"
+	| "blue"
+	| "magenta"
+	| "cyan"
+	| "white";
 
 /**
  * @interface LogData
@@ -27,8 +34,8 @@ export type ColorKey = 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' 
  * @property {any} [data] - The data to log.
  */
 export interface LogData {
-    message?: string;
-    data?: any;
+	message?: string;
+	data?: any;
 }
 
 /**
@@ -40,8 +47,8 @@ export interface LogData {
  * @property {string} [logLevel] - The log level.
  */
 export interface LoggerOptions {
-    pretty?: boolean;
-    json?: boolean;
-    timestamps?: boolean;
-    logLevel?: string;
+	pretty?: boolean;
+	json?: boolean;
+	timestamps?: boolean;
+	logLevel?: string;
 }

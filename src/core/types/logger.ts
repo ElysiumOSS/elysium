@@ -15,6 +15,28 @@
  */
 
 /**
+ * Enum representing different logging levels with their priority values.
+ * Higher values indicate more verbose logging.
+ * @enum {number}
+ */
+export enum LogLevel {
+	/** No logging */
+	NONE = 0,
+	/** Only error messages */
+	ERROR = 1,
+	/** Errors and warnings */
+	WARN = 2,
+	/** Errors, warnings, and informational messages */
+	INFO = 3,
+	/** Errors, warnings, info, and debug messages */
+	DEBUG = 4,
+	/** Errors, warnings, info, debug, and trace messages */
+	TRACE = 5,
+	/** All possible log messages */
+	ALL = 6,
+}
+
+/**
  * Interface for structured data that can be attached to log messages
  * @interface
  */
@@ -36,7 +58,7 @@ export interface LoggerOptions {
 	/**
 	 * The minimum level of messages to log
 	 */
-	minLevel?: number; // Changed to number as LogLevel is no longer imported
+	minLevel?: LogLevel;
 	/**
 	 * Whether to include timestamps in log messages
 	 */

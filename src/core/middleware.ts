@@ -24,9 +24,9 @@
  * @see https://github.com/WomB0ComB0/portfolio
  */
 
-import { ensureBaseError, isBaseError } from './error';
-import { onRequestError } from '@/core/constants';
-import { logger } from './utils';
+import { onRequestError } from "@/core/constants";
+import logger from "@/core/utils";
+import { ensureBaseError, isBaseError } from "./error";
 
 /**
  * Defines the shape of cache configuration for request/response handling.
@@ -42,8 +42,8 @@ import { logger } from './utils';
  * @see createCacheHeaders
  */
 export interface CacheConfig {
-  contentType?: string;
-  cacheControl?: string;
+	contentType?: string;
+	cacheControl?: string;
 }
 
 /**
@@ -61,9 +61,9 @@ export interface CacheConfig {
  * @see createErrorHandler
  */
 export interface ErrorHandlerConfig {
-  context: string;
-  customMessage?: (error: unknown) => string;
-  includeErrorDetails?: boolean;
+	context: string;
+	customMessage?: (error: unknown) => string;
+	includeErrorDetails?: boolean;
 }
 
 /**
@@ -81,25 +81,25 @@ export interface ErrorHandlerConfig {
  * @see CacheConfig
  */
 export const CachePresets = {
-  NoCache: {
-    contentType: 'application/json',
-    cacheControl: 'no-cache, must-revalidate, max-age=0',
-  },
-  Short: {
-    contentType: 'application/json',
-    cacheControl: 'public, s-maxage=60, stale-while-revalidate=30',
-  },
-  Medium: {
-    contentType: 'application/json',
-    cacheControl: 'public, s-maxage=3600, stale-while-revalidate=1800',
-  },
-  Long: {
-    contentType: 'application/json',
-    cacheControl: 'public, s-maxage=86400, stale-while-revalidate=43200',
-  },
-  JsonOnly: {
-    contentType: 'application/json',
-  },
+	NoCache: {
+		contentType: "application/json",
+		cacheControl: "no-cache, must-revalidate, max-age=0",
+	},
+	Short: {
+		contentType: "application/json",
+		cacheControl: "public, s-maxage=60, stale-while-revalidate=30",
+	},
+	Medium: {
+		contentType: "application/json",
+		cacheControl: "public, s-maxage=3600, stale-while-revalidate=1800",
+	},
+	Long: {
+		contentType: "application/json",
+		cacheControl: "public, s-maxage=86400, stale-while-revalidate=43200",
+	},
+	JsonOnly: {
+		contentType: "application/json",
+	},
 } as const;
 
 /**
@@ -117,22 +117,25 @@ export const CachePresets = {
  * // { "Content-Type": "application/json", "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30" }
  * @see CachePresets
  */
-export function createCacheHeaders(config: CacheConfig | keyof typeof CachePresets = 'JsonOnly') {
-  const actualConfig: CacheConfig = typeof config === 'string' ? CachePresets[config] : config;
+export function createCacheHeaders(
+	config: CacheConfig | keyof typeof CachePresets = "JsonOnly",
+) {
+	const actualConfig: CacheConfig =
+		typeof config === "string" ? CachePresets[config] : config;
 
-  return () => {
-    const headers: Record<string, string> = {};
+	return () => {
+		const headers: Record<string, string> = {};
 
-    if (actualConfig.contentType) {
-      headers['Content-Type'] = actualConfig.contentType;
-    }
+		if (actualConfig.contentType) {
+			headers["Content-Type"] = actualConfig.contentType;
+		}
 
-    if (actualConfig.cacheControl) {
-      headers['Cache-Control'] = actualConfig.cacheControl;
-    }
+		if (actualConfig.cacheControl) {
+			headers["Cache-Control"] = actualConfig.cacheControl;
+		}
 
-    return headers;
-  };
+		return headers;
+	};
 }
 
 /**
@@ -153,35 +156,35 @@ export function createCacheHeaders(config: CacheConfig | keyof typeof CachePrese
  * @see ErrorHandlerConfig
  */
 export function createErrorHandler(config: ErrorHandlerConfig) {
-  return (error: unknown) => {
-    // Wrap error in BaseError if it isn't already
-    const baseError = ensureBaseError(error, config.context, {
-      includeErrorDetails: config.includeErrorDetails,
-    });
+	return (error: unknown) => {
+		// Wrap error in BaseError if it isn't already
+		const baseError = ensureBaseError(error, config.context, {
+			includeErrorDetails: config.includeErrorDetails,
+		});
 
-    logger.error(`Error ${config.context}:`, baseError.toString());
+		logger.error(`Error ${config.context}:`, baseError.toString());
 
-    // Capture error to Sentry for monitoring
-    onRequestError(baseError);
+		// Capture error to Sentry for monitoring
+		onRequestError(baseError);
 
-    let errorMessage: string;
+		let errorMessage: string;
 
-    if (config.customMessage) {
-      errorMessage = config.customMessage(baseError);
-    } else if (config.includeErrorDetails) {
-      errorMessage = baseError.cause.message;
-    } else {
-      errorMessage = `Failed to ${config.context}`;
-    }
+		if (config.customMessage) {
+			errorMessage = config.customMessage(baseError);
+		} else if (config.includeErrorDetails) {
+			errorMessage = baseError.cause.message;
+		} else {
+			errorMessage = `Failed to ${config.context}`;
+		}
 
-    return {
-      error: errorMessage,
-      status: 500,
-      ...(config.includeErrorDetails && isBaseError(error)
-        ? { metadata: baseError.metadata, command: baseError.command }
-        : {}),
-    };
-  };
+		return {
+			error: errorMessage,
+			status: 500,
+			...(config.includeErrorDetails && isBaseError(error)
+				? { metadata: baseError.metadata, command: baseError.command }
+				: {}),
+		};
+	};
 }
 
 /**
@@ -203,29 +206,28 @@ export function createErrorHandler(config: ErrorHandlerConfig) {
  * // { count: 0, error: "...", ... }
  * @see ErrorHandlerConfig
  */
-export function createErrorHandlerWithDefault<T extends Record<string, unknown>>(
-  config: ErrorHandlerConfig,
-  defaultData: T,
-) {
-  return (error: unknown) => {
-    // Wrap error in BaseError if it isn't already
-    const baseError = ensureBaseError(error, config.context, {
-      defaultData,
-    });
+export function createErrorHandlerWithDefault<
+	T extends Record<string, unknown>,
+>(config: ErrorHandlerConfig, defaultData: T) {
+	return (error: unknown) => {
+		// Wrap error in BaseError if it isn't already
+		const baseError = ensureBaseError(error, config.context, {
+			defaultData,
+		});
 
-    logger.error(`Error ${config.context}:`, baseError.toString());
+		logger.error(`Error ${config.context}:`, baseError.toString());
 
-    // Capture error to Sentry for monitoring
-    onRequestError(baseError);
+		// Capture error to Sentry for monitoring
+		onRequestError(baseError);
 
-    const errorMessage = baseError.cause.message;
+		const errorMessage = baseError.cause.message;
 
-    return {
-      ...defaultData,
-      error: errorMessage,
-      ...(config.includeErrorDetails
-        ? { command: baseError.command, timestamp: baseError.timestamp }
-        : {}),
-    };
-  };
+		return {
+			...defaultData,
+			error: errorMessage,
+			...(config.includeErrorDetails
+				? { command: baseError.command, timestamp: baseError.timestamp }
+				: {}),
+		};
+	};
 }
