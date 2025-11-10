@@ -22,7 +22,8 @@ import { utilityRoute } from "@/api/routes/utility/index";
 import { createElysiaApp } from "@/core/create-elysia-app";
 
 const app = createElysiaApp({
-	prefix: "/api/v1",
+	prefix: "",
+	enableTelemetry: false, // Disable for Vercel compatibility
 })
 	.use(authRoute)
 	.use(protectedRoute)
@@ -59,7 +60,7 @@ security, observability, and more.
 				},
 				externalDocs: {
 					description: "Find more info here",
-					url: "https://github.com/your-org/your-repo",
+					url: "https://github.com/ElysiumOSS/elysium",
 				},
 				tags: [
 					{

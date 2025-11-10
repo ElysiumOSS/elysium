@@ -2,87 +2,87 @@
 import type { Project } from "@/core/types/project";
 
 const projectsData: Omit<Project, "imageUrl">[] = [
-	{
-		id: "garden-core",
-		title: "Garden Core",
-		description:
-			"Foundation libraries and utilities for the Garden ecosystem. Core functionality for all projects.",
-		tags: ["TypeScript", "Core"],
-		link: "https://github.com/WomB0ComB0/garden-core",
-		year: "2024",
-		logo: "🌱",
-	},
-	{
-		id: "harmony",
-		title: "Harmony",
-		description:
-			"A composable state management library for building complex applications with elegant simplicity.",
-		tags: ["State Management", "React"],
-		link: "https://github.com/WomB0ComB0/harmony",
-		year: "2024",
-		logo: "🎵",
-	},
-	{
-		id: "prisma-utils",
-		title: "Prisma Utils",
-		description:
-			"Collection of utilities and helpers for working with Prisma ORM. Streamline your database operations.",
-		tags: ["Database", "Utilities"],
-		link: "https://github.com/WomB0ComB0/prisma-utils",
-		year: "2024",
-		logo: "🗄️",
-	},
-	{
-		id: "ui-system",
-		title: "UI System",
-		description:
-			"Accessible and customizable React component library built with Radix UI primitives.",
-		tags: ["Components", "Design System"],
-		link: "#",
-		year: "2025",
-		logo: "🎨",
-	},
-	{
-		id: "auth-js",
-		title: "Auth.js Integration",
-		description:
-			"Seamless authentication solutions with Auth.js. Support for multiple providers and strategies.",
-		tags: ["Authentication", "Security"],
-		link: "#",
-		year: "2025",
-		logo: "🔐",
-	},
-	{
-		id: "cli-toolkit",
-		title: "CLI Toolkit",
-		description:
-			"Developer-friendly command-line tools for scaffolding and automation within the Garden ecosystem.",
-		tags: ["CLI", "Developer Tools"],
-		link: "#",
-		year: "2025",
-		logo: "⚙️",
-	},
+  {
+    id: "garden-core",
+    title: "Garden Core",
+    description:
+      "Foundation libraries and utilities for the Garden ecosystem. Core functionality for all projects.",
+    tags: ["TypeScript", "Core"],
+    link: "https://github.com/WomB0ComB0/garden-core",
+    year: "2024",
+    logo: "🌱",
+  },
+  {
+    id: "harmony",
+    title: "Harmony",
+    description:
+      "A composable state management library for building complex applications with elegant simplicity.",
+    tags: ["State Management", "React"],
+    link: "https://github.com/WomB0ComB0/harmony",
+    year: "2024",
+    logo: "🎵",
+  },
+  {
+    id: "prisma-utils",
+    title: "Prisma Utils",
+    description:
+      "Collection of utilities and helpers for working with Prisma ORM. Streamline your database operations.",
+    tags: ["Database", "Utilities"],
+    link: "https://github.com/WomB0ComB0/prisma-utils",
+    year: "2024",
+    logo: "🗄️",
+  },
+  {
+    id: "ui-system",
+    title: "UI System",
+    description:
+      "Accessible and customizable React component library built with Radix UI primitives.",
+    tags: ["Components", "Design System"],
+    link: "#",
+    year: "2025",
+    logo: "🎨",
+  },
+  {
+    id: "auth-js",
+    title: "Auth.js Integration",
+    description:
+      "Seamless authentication solutions with Auth.js. Support for multiple providers and strategies.",
+    tags: ["Authentication", "Security"],
+    link: "#",
+    year: "2025",
+    logo: "🔐",
+  },
+  {
+    id: "cli-toolkit",
+    title: "CLI Toolkit",
+    description:
+      "Developer-friendly command-line tools for scaffolding and automation within the Garden ecosystem.",
+    tags: ["CLI", "Developer Tools"],
+    link: "#",
+    year: "2025",
+    logo: "⚙️",
+  },
 ];
 
 const projects = await Promise.all(
-	projectsData.map(async (project) => {
-		if (project.link === "#") {
-			return { ...project, imageUrl: "https://placehold.co/1200x630" };
-		}
-		try {
-			const response = await fetch(
-				`${Astro.url.origin}/api/v1/fetch-og-image?url=${encodeURIComponent(project.link)}`,
-			);
-			if (!response.ok) {
-				return { ...project, imageUrl: "https://placehold.co/1200x630" };
-			}
-			const { imageUrl } = await response.json();
-			return { ...project, imageUrl };
-		} catch (error) {
-			console.error(`Failed to fetch OG image for ${project.title}:`, error);
-			return { ...project, imageUrl: "https://placehold.co/1200x630" };
-		}
-	}),
+  projectsData.map(async (project) => {
+    if (project.link === "#") {
+      return { ...project, imageUrl: "https://placehold.co/1200x630" };
+    }
+    try {
+      const response = await fetch(
+        `${Astro.url.origin}/api/fetch-og-image?url=${encodeURIComponent(project.link)}`
+      );
+      if (!response.ok) {
+        return { ...project, imageUrl: "https://placehold.co/1200x630" };
+      }
+      const { imageUrl } = await response.json();
+      return { ...project, imageUrl };
+    } catch (error) {
+      console.error(`Failed to fetch OG image for ${project.title}:`, error);
+      return { ...project, imageUrl: "https://placehold.co/1200x630" };
+    }
+  })
 );
 ---
 
