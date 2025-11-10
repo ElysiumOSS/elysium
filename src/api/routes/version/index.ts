@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { record } from "@elysiajs/opentelemetry";
 import { Elysia } from "elysia";
 import { Stringify } from "@/core/helpers/general";
+import { record } from "@/core/helpers/telemetry";
 
 /**
  * The current application version, loaded from package.json.
