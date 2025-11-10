@@ -19,9 +19,7 @@ import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
 import { opentelemetry } from "@elysiajs/opentelemetry";
 import type { ServerTimingOptions } from "@elysiajs/server-timing";
 import { serverTiming } from "@elysiajs/server-timing";
-import type { SocketAddress } from "bun";
 import { Elysia } from "elysia";
-import { ip } from "elysia-ip";
 import {
 	DefaultContext,
 	type Generator,
@@ -35,6 +33,7 @@ import {
 	permission,
 } from "@/core/config/constants";
 import { getURL, Stringify } from "@/core/helpers/general";
+import { ip } from "@/core/helpers/ip-plugin";
 import logger from "@/core/helpers/utils";
 import { createErrorHandler } from "@/core/middleware-handlers/middleware";
 
@@ -177,14 +176,14 @@ const DEFAULT_CONFIG: Partial<ElysiaApiConfig> = {
  * @author Mike Odnis
  * @param {any} _r - The request object (unused in context).
  * @param {any} _s - The response object (unused in context).
- * @param {{ ip: SocketAddress }} param2 - The Elysia context containing the client IP.
+ * @param {{ ip: string }} param2 - The Elysia context containing the client IP.
  * @returns {string} The client's IP address or 'unknown' if not available.
  * @see https://github.com/ElysiumOSS/elysium
  * @example
- * const id = ipGenerator(req, res, { ip: { address: '127.0.0.1' } });
+ * const id = ipGenerator(req, res, { ip: '127.0.0.1' });
  */
-const ipGenerator: Generator<{ ip: SocketAddress }> = (_r, _s, { ip }) =>
-	ip?.address ?? "unknown";
+const ipGenerator: Generator<{ ip: string }> = (_r, _s, { ip }) =>
+	ip ?? "unknown";
 
 /**
  * Creates a configured Elysia application instance with all standard middleware.
