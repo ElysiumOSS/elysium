@@ -16,23 +16,24 @@
  */
 
 import * as S from "@effect/schema/Schema";
+import Analytics from "@vercel/analytics/astro";
 import { SEO } from "astro-seo";
 import PostHog from "../components/posthog-analytics.astro";
 import SmoothScroll from "../components/smooth-scroll.astro";
 import "../styles/global.css";
 
 const Props = S.Struct({
-	title: S.String,
-	description: S.String,
-	image: S.optional(S.String),
-	ogType: S.optional(S.String),
+  title: S.String,
+  description: S.String,
+  image: S.optional(S.String),
+  ogType: S.optional(S.String),
 });
 
 const {
-	title,
-	description,
-	image = "/assets/images/og.jpg",
-	ogType = "website",
+  title,
+  description,
+  image = "/assets/images/og.jpg",
+  ogType = "website",
 } = Astro.props as S.Schema.Type<typeof Props>;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -145,6 +146,9 @@ const socialImageURL = new URL(image, Astro.site).toString();
         ],
       })}
     />
+
+    <!-- Vercel Analytics -->
+    <Analytics />
 
     <!-- PostHog Analytics -->
     <PostHog />
