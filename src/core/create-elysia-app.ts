@@ -21,6 +21,10 @@ import {
 } from "@/core/config/constants";
 import { getURL, Stringify } from "@/core/helpers/general";
 import { ip } from "@/core/helpers/ip-plugin";
+import {
+	securityHeaders,
+	type SecurityConfig,
+} from "@/core/helpers/security-headers";
 import logger from "@/core/helpers/utils";
 import { createErrorHandler } from "@/core/middleware-handlers/middleware";
 import { cors } from "@elysiajs/cors";
@@ -35,7 +39,6 @@ import {
 	type Generator,
 	type Options as RateLimitOptions,
 } from "elysia-rate-limit";
-import { elysiaHelmet } from "elysiajs-helmet";
 
 /**
  * @interface ElysiaApiConfig
@@ -70,10 +73,9 @@ export interface ElysiaApiConfig {
 
 	/**
 	 * Security headers configuration.
-	 * Uses the same parameters as the elysiajs-helmet plugin.
-	 * @see https://github.com/EverlastingBugstopper/elysiajs-helmet
+	 * Custom security headers middleware for API protection.
 	 */
-	security?: Parameters<typeof elysiaHelmet>[0];
+	security?: SecurityConfig;
 
 	/**
 	 * Server timing trace configuration.
@@ -259,7 +261,7 @@ export function createElysiaApp(config: ElysiaApiConfig) {
 				});
 			},
 		)
-		.use(elysiaHelmet(mergedConfig.security))
+		.use(securityHeaders(mergedConfig.security))
 		.use(ip())
 		.use(
 			// Only use OpenTelemetry in local development
