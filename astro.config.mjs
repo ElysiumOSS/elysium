@@ -1,6 +1,6 @@
 // @ts-check
 
-import node from "@astrojs/node";
+import vercel from "@astrojs/vercel";
 import sitemap from "@astrojs/sitemap";
 import sentry from "@sentry/astro";
 import tailwindcss from "@tailwindcss/vite";
@@ -11,9 +11,7 @@ import icon from "astro-icon";
 export default defineConfig({
 	output: "server",
 
-	adapter: node({
-		mode: "standalone",
-	}),
+	adapter: vercel(),
 
 	site: "https://elysium.tools",
 

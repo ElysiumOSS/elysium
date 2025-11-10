@@ -13,6 +13,7 @@
 		"@astrojs/node": "^9.5.0",
 		"@astrojs/sitemap": "^3.6.0",
 		"@astrojs/starlight": "^0.36.2",
+		"@astrojs/vercel": "^9.0.0",
 		"@effect/schema": "^0.75.5",
 		"@elysiajs/bearer": "^1.4.1",
 		"@elysiajs/cors": "^1.4.0",
