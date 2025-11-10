@@ -71,7 +71,7 @@ const projects = await Promise.all(
 		}
 		try {
 			const response = await fetch(
-				`${Astro.url.origin}/api/fetch-og-image?url=${encodeURIComponent(project.link)}`,
+				`${Astro.url.origin}/api/v1/fetch-og-image?url=${encodeURIComponent(project.link)}`,
 			);
 			if (!response.ok) {
 				return { ...project, imageUrl: "https://placehold.co/1200x630" };
