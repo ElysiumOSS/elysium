@@ -1,5 +1,5 @@
 /**
- * Copyright 2025 Mike Odnis
+ * Copyright 2025 Elysium OSS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import { batchSpanProcessor, otelResource, permission } from "@/core/config/constants";
+import { getURL, Stringify } from "@/core/helpers/general";
+import logger from "@/core/helpers/utils";
+import { createErrorHandler } from "@/core/middleware-handlers/middleware";
 import { cors } from "@elysiajs/cors";
 import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
 import { opentelemetry } from "@elysiajs/opentelemetry";
@@ -23,16 +27,12 @@ import type { SocketAddress } from "bun";
 import { Elysia } from "elysia";
 import { ip } from "elysia-ip";
 import {
-	DefaultContext,
-	type Generator,
-	type Options as RateLimitOptions,
-	rateLimit,
+    DefaultContext,
+    rateLimit,
+    type Generator,
+    type Options as RateLimitOptions,
 } from "elysia-rate-limit";
 import { elysiaHelmet } from "elysiajs-helmet";
-import { batchSpanProcessor, otelResource, permission } from "@/core/constants";
-import { createErrorHandler } from "@/core/middleware";
-import logger from "@/core/utils";
-import { getURL, Stringify } from "@/core/utils/general";
 
 /**
  * @interface ElysiaApiConfig

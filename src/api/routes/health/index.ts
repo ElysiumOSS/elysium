@@ -17,51 +17,45 @@
 import { Stringify } from "@/core/helpers/general";
 import { record } from "@elysiajs/opentelemetry";
 import { Elysia } from "elysia";
-import { requireAuth } from "../auth";
 
-export const protectedRoute = new Elysia()
-	.use(requireAuth)
+/**
+ * Health check route
+ * Provides a simple endpoint to verify API availability
+ */
+export const healthRoute = new Elysia()
 	.get(
-		"/example",
-		(context) => {
-			if (!(context as any).publicKey) {
-				context.set.status = 401;
-				return { error: "Unauthorized" };
-			}
-			return record("protected.example.get", () => {
-				return Stringify({
-					message: "You have access!",
-					yourPublicKey: (context as any).publicKey,
-				});
-			});
-		},
+		"/",
+		async () =>
+			record("health.get", () => {
+				return Stringify({ message: "ok", status: 200 });
+			}),
 		{
 			detail: {
-				summary: "Protected Example",
-				description: "An example endpoint that requires authentication",
-				tags: ["Protected"],
+				summary: "Health check",
+				description: "Returns ok if the API is healthy",
+				tags: ["Health"],
 			},
 		},
 	)
 	.head(
-		"/example",
+		"/",
 		({ set }) =>
-			record("protected.example.head", () => {
+			record("health.head", () => {
 				set.status = 200;
 				return;
 			}),
 		{
 			detail: {
-				summary: "Protected Example HEAD",
-				description: "HEAD for protected example endpoint",
-				tags: ["Protected"],
+				summary: "Health HEAD",
+				description: "HEAD for health endpoint",
+				tags: ["Health"],
 			},
 		},
 	)
 	.options(
-		"/example",
+		"/",
 		() =>
-			record("protected.example.options", () => {
+			record("health.options", () => {
 				return Stringify({
 					message: "CORS preflight response",
 					status: 204,
@@ -70,9 +64,9 @@ export const protectedRoute = new Elysia()
 			}),
 		{
 			detail: {
-				summary: "Protected Example OPTIONS",
-				description: "CORS preflight for protected example",
-				tags: ["Protected"],
+				summary: "Health OPTIONS",
+				description: "CORS preflight for health",
+				tags: ["Health"],
 			},
 		},
 	);

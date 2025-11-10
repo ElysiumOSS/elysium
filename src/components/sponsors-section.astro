@@ -1,0 +1,741 @@
+---
+import { Icon } from "astro-icon/components";
+
+const sponsorPlatforms = [
+	{
+		name: "GitHub Sponsors",
+		username: "@WomB0ComB0",
+		url: "https://github.com/sponsors/WomB0ComB0",
+		icon: "mdi:github",
+		color: "primary",
+		description:
+			"Flexible monthly or one-time contributions directly through GitHub.",
+	},
+	{
+		name: "Open Collective",
+		username: "@mike-odnis",
+		url: "https://opencollective.com/mike-odnis",
+		icon: "mdi:earth",
+		color: "info",
+		description: "Transparent funding with public expense tracking.",
+	},
+	{
+		name: "Ko-fi",
+		username: "@Y8Y77AJEA",
+		url: "https://ko-fi.com/Y8Y77AJEA",
+		icon: "mdi:coffee",
+		color: "warning",
+		description: "Quick one-time donations to fuel my work.",
+	},
+	{
+		name: "Buy Me a Coffee",
+		username: "@mikeodnis",
+		url: "https://www.buymeacoffee.com/mikeodnis",
+		icon: "mdi:coffee-outline",
+		color: "accent",
+		description: "Easy coffee-sized donations to show support.",
+	},
+] as const;
+---
+
+<section class="sponsors" id="sponsors">
+  <div class="container">
+    <div class="section-header" data-scroll-animate="fade-up">
+      <h2>Support the Vision</h2>
+      <p class="section-subtitle">
+        Help sustain the creation of open-source tools and libraries. Your
+        support fuels continuous development and innovation.
+      </p>
+    </div>
+
+    <div class="sponsors-grid">
+      {
+        sponsorPlatforms.map((platform, index) => (
+          <a
+            href={platform.url}
+            class="sponsor-card"
+            data-scroll-animate="fade-up"
+            data-delay={index * 100}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="card-shine" />
+            <div class="card-border" />
+
+            <div class="card-inner">
+              <div class="sponsor-icon">
+                <Icon name={platform.icon} size={32} />
+              </div>
+
+              <div class="sponsor-content">
+                <h3>{platform.name}</h3>
+                <p class="sponsor-username">{platform.username}</p>
+                <p class="sponsor-description">{platform.description}</p>
+              </div>
+
+              <div class="sponsor-arrow">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="sponsors-footer" data-scroll-animate="fade-up" data-delay="400">
+      <div class="footer-icon">
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+          ></path>
+        </svg>
+      </div>
+      <div class="footer-content">
+        <h3>Every Contribution Matters</h3>
+        <p>
+          Every contribution, no matter the size, makes a meaningful difference.
+          Thank you for believing in this journey and supporting open-source
+          development.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sponsors {
+    padding: 8rem 1rem;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 10, 26, 0.8) 0%,
+      rgba(15, 10, 26, 0.6) 100%
+    );
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(167, 139, 250, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sponsors::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+      circle,
+      rgba(236, 72, 153, 0.15) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 5rem;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .section-header h2 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--color-primary-hsl)) 0%,
+      hsl(var(--color-secondary-hsl)) 50%,
+      hsl(var(--color-accent-hsl)) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .section-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.25rem;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .sponsors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .sponsor-card {
+    position: relative;
+    background: rgba(15, 10, 26, 0.6);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(20px);
+    text-decoration: none;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .card-shine {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+  }
+
+  .sponsor-card:hover .card-shine {
+    transform: translateX(100%);
+  }
+
+  .card-border {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.5),
+      rgba(236, 72, 153, 0.5)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .sponsor-card:hover .card-border {
+    opacity: 1;
+  }
+
+  .sponsor-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    border-color: rgba(167, 139, 250, 0.4);
+    box-shadow:
+      0 20px 60px rgba(167, 139, 250, 0.3),
+      0 0 0 1px rgba(167, 139, 250, 0.2);
+  }
+
+  .card-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem;
+  }
+
+  .sponsor-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.3),
+      rgba(236, 72, 153, 0.3)
+    );
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    border-radius: 16px;
+    color: hsl(var(--color-primary-hsl));
+    margin-bottom: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+  }
+
+  .sponsor-icon :global(svg) {
+    width: 32px;
+    height: 32px;
+  }
+
+  .sponsor-card:hover .sponsor-icon {
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
+    background: linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.5),
+      rgba(236, 72, 153, 0.5)
+    );
+  }
+
+  .sponsor-content {
+    flex-grow: 1;
+  }
+
+  .sponsor-card h3 {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .sponsor-username {
+    color: hsl(var(--color-primary-hsl));
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    font-family: "Courier New", monospace;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+
+  .sponsor-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .sponsor-arrow {
+    color: hsl(var(--color-primary-hsl));
+    opacity: 0.6;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    align-self: flex-end;
+  }
+
+  .sponsor-card:hover .sponsor-arrow {
+    opacity: 1;
+    transform: translateX(8px);
+  }
+
+  .sponsors-footer {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem;
+    background: linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.1),
+      rgba(236, 72, 153, 0.1)
+    );
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .sponsors-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(139, 92, 246, 0.1) 50%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .sponsors-footer:hover::before {
+    opacity: 1;
+  }
+
+  .footer-icon {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--color-primary-hsl)),
+      hsl(var(--color-secondary-hsl))
+    );
+    border-radius: 20px;
+    color: white;
+    box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 16px 40px rgba(139, 92, 246, 0.6);
+    }
+  }
+
+  .footer-content h3 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+  }
+
+  .footer-content p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  @media (max-width: 968px) {
+    .sponsors {
+      padding: 5rem 1rem;
+    }
+
+    .section-header {
+      margin-bottom: 3.5rem;
+    }
+
+    .sponsors-grid {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .sponsor-card {
+      min-height: auto;
+    }
+
+    .card-inner {
+      padding: 1.5rem;
+    }
+
+    .sponsor-icon {
+      width: 56px;
+      height: 56px;
+    }
+
+    .sponsor-icon :global(svg) {
+      width: 28px;
+      height: 28px;
+    }
+
+    .sponsor-card h3 {
+      font-size: 1.3rem;
+    }
+
+    .sponsors-footer {
+      flex-direction: column;
+      text-align: center;
+      padding: 2rem;
+      gap: 1.5rem;
+    }
+
+    .footer-icon {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .sponsors-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  import { animate, inView, stagger } from "motion";
+
+  // Animate section header
+  const header = document.querySelector(".sponsors .section-header");
+  if (header) {
+    inView(
+      header,
+      () => {
+        animate(header as any, { opacity: 1, y: 0 }, {
+          duration: 0.8,
+          easing: [0.22, 1, 0.36, 1],
+        } as any);
+      },
+      { amount: 0.3 }
+    );
+  }
+
+  // Animate sponsor cards with stagger
+  const cards = document.querySelectorAll(".sponsor-card");
+  if (cards.length > 0) {
+    inView(
+      ".sponsors-grid",
+      () => {
+        animate(Array.from(cards) as any, { opacity: 1, y: 0 }, {
+          duration: 0.6,
+          delay: stagger(0.1),
+          easing: [0.22, 1, 0.36, 1],
+        } as any);
+      },
+      { amount: 0.2 }
+    );
+  }
+
+  // Animate footer
+  const footer = document.querySelector(".sponsors-footer");
+  if (footer) {
+    inView(
+      footer,
+      () => {
+        animate(footer as any, { opacity: 1, y: 0 }, {
+          duration: 0.8,
+          delay: 0.4,
+          easing: [0.22, 1, 0.36, 1],
+        } as any);
+      },
+      { amount: 0.3 }
+    );
+  }
+</script>
+
+<style>
+  .sponsors {
+    padding: 6rem 1rem;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 10, 26, 0.3) 0%,
+      rgba(15, 10, 26, 0.6) 100%
+    );
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(167, 139, 250, 0.1);
+    position: relative;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-secondary)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .sponsors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .sponsor-card {
+    position: relative;
+    background: rgba(15, 10, 26, 0.6);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(20px);
+    text-decoration: none;
+  }
+
+  .card-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle,
+      rgba(168, 85, 247, 0.3) 0%,
+      rgba(236, 72, 153, 0.2) 50%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .sponsor-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--color-primary);
+    box-shadow: 0 20px 40px rgba(167, 139, 250, 0.3);
+  }
+
+  .sponsor-card:hover .card-glow {
+    opacity: 1;
+  }
+
+  .card-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .sponsor-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+  }
+
+  .sponsor-content {
+    flex-grow: 1;
+  }
+
+  .sponsor-card h3 {
+    font-size: 1.5rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .sponsor-username {
+    color: var(--color-primary);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    font-family: "Courier New", monospace;
+    font-weight: 500;
+  }
+
+  .sponsor-description {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .sponsor-arrow {
+    color: var(--color-primary);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    align-self: flex-end;
+  }
+
+  .sponsor-card:hover .sponsor-arrow {
+    opacity: 1;
+    transform: translateX(6px);
+  }
+
+  .sponsors-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+    background: rgba(167, 139, 250, 0.05);
+    border: 1px solid rgba(167, 139, 250, 0.1);
+    border-radius: 0.75rem;
+  }
+
+  .heart-icon {
+    flex-shrink: 0;
+    stroke: var(--color-primary);
+  }
+
+  .sponsors-footer p {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 700px;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .sponsors {
+      padding: 4rem 1rem;
+    }
+
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
+    .sponsors-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .sponsor-card {
+      padding: 1.5rem;
+    }
+
+    .sponsor-icon {
+      font-size: 2.5rem;
+    }
+
+    .sponsor-card h3 {
+      font-size: 1.3rem;
+    }
+
+    .sponsors-footer {
+      flex-direction: column;
+      padding: 1.5rem;
+    }
+  }
+</style>

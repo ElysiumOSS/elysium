@@ -1,3 +1,4 @@
+---
 /**
  * Copyright 2025 Elysium OSS
  *
@@ -14,10 +15,28 @@
  * limitations under the License.
  */
 
-import { defineCollection } from "astro:content";
-import { docsLoader } from "@astrojs/starlight/loaders";
-import { docsSchema } from "@astrojs/starlight/schema";
+import AboutSection from "@/components/about-section.astro";
+import Footer from "@/components/footer.astro";
+import Navbar from "@/components/navbar.astro";
+import Layout from "@/layouts/Layout.astro";
+---
 
-export const collections = {
-	docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
-};
+<Layout
+  title="About - Elysium"
+  description="Learn about Elysium, our mission, and the philosophy behind building meaningful open-source tools for creation and exploration."
+>
+  <Navbar />
+
+  <div class="page-content">
+    <AboutSection />
+  </div>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-content {
+    padding-top: 6rem;
+    min-height: 100vh;
+  }
+</style>

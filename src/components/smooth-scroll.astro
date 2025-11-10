@@ -1,0 +1,73 @@
+---
+/**
+ * Copyright 2025 Elysium OSS
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Smooth scroll component using Lenis
+---
+
+<script>
+  import Lenis from "lenis";
+  import "lenis/dist/lenis.css";
+
+  // Initialize Lenis smooth scroll
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: "vertical",
+    gestureOrientation: "vertical",
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 2,
+    infinite: false,
+  });
+
+  // Request animation frame loop
+  function raf(time: number) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+
+  // Expose lenis globally for use in other scripts
+  (window as any).lenis = lenis;
+
+  // Handle anchor links
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = document.querySelector(
+        anchor.getAttribute("href") as string
+      );
+      if (target) {
+        lenis.scrollTo(target as HTMLElement, {
+          offset: 0,
+          duration: 1.5,
+        });
+      }
+    });
+  });
+
+  // Debug: log scroll position
+  lenis.on(
+    "scroll",
+    ({ scroll, limit, velocity, direction, progress }: any) => {
+      if (import.meta.env.DEV) {
+        console.log({ scroll, limit, velocity, direction, progress });
+      }
+    }
+  );
+</script>

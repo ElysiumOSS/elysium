@@ -1,5 +1,5 @@
 /**
- * Copyright 2025 Mike Odnis
+ * Copyright 2025 Elysium OSS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@
  * @see https://github.com/WomB0ComB0/portfolio
  */
 
-import { onRequestError } from "@/core/constants";
-import logger from "@/core/utils";
-import { ensureBaseError, isBaseError } from "./error";
+import { onRequestError } from "@/core/config/constants";
+import logger from "@/core/helpers/utils";
+import { ensureBaseError, isBaseError } from "../errors/error";
 
 /**
  * Defines the shape of cache configuration for request/response handling.

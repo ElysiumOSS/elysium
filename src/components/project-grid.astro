@@ -1,0 +1,345 @@
+---
+import type { Project } from "@/core/types/project";
+
+const projectsData: Omit<Project, "imageUrl">[] = [
+	{
+		id: "garden-core",
+		title: "Garden Core",
+		description:
+			"Foundation libraries and utilities for the Garden ecosystem. Core functionality for all projects.",
+		tags: ["TypeScript", "Core"],
+		link: "https://github.com/WomB0ComB0/garden-core",
+		year: "2024",
+		logo: "🌱",
+	},
+	{
+		id: "harmony",
+		title: "Harmony",
+		description:
+			"A composable state management library for building complex applications with elegant simplicity.",
+		tags: ["State Management", "React"],
+		link: "https://github.com/WomB0ComB0/harmony",
+		year: "2024",
+		logo: "🎵",
+	},
+	{
+		id: "prisma-utils",
+		title: "Prisma Utils",
+		description:
+			"Collection of utilities and helpers for working with Prisma ORM. Streamline your database operations.",
+		tags: ["Database", "Utilities"],
+		link: "https://github.com/WomB0ComB0/prisma-utils",
+		year: "2024",
+		logo: "🗄️",
+	},
+	{
+		id: "ui-system",
+		title: "UI System",
+		description:
+			"Accessible and customizable React component library built with Radix UI primitives.",
+		tags: ["Components", "Design System"],
+		link: "#",
+		year: "2025",
+		logo: "🎨",
+	},
+	{
+		id: "auth-js",
+		title: "Auth.js Integration",
+		description:
+			"Seamless authentication solutions with Auth.js. Support for multiple providers and strategies.",
+		tags: ["Authentication", "Security"],
+		link: "#",
+		year: "2025",
+		logo: "🔐",
+	},
+	{
+		id: "cli-toolkit",
+		title: "CLI Toolkit",
+		description:
+			"Developer-friendly command-line tools for scaffolding and automation within the Garden ecosystem.",
+		tags: ["CLI", "Developer Tools"],
+		link: "#",
+		year: "2025",
+		logo: "⚙️",
+	},
+];
+
+const projects = await Promise.all(
+	projectsData.map(async (project) => {
+		if (project.link === "#") {
+			return { ...project, imageUrl: "https://placehold.co/1200x630" };
+		}
+		try {
+			const response = await fetch(
+				`${Astro.url.origin}/api/fetch-og-image?url=${encodeURIComponent(project.link)}`,
+			);
+			if (!response.ok) {
+				return { ...project, imageUrl: "https://placehold.co/1200x630" };
+			}
+			const { imageUrl } = await response.json();
+			return { ...project, imageUrl };
+		} catch (error) {
+			console.error(`Failed to fetch OG image for ${project.title}:`, error);
+			return { ...project, imageUrl: "https://placehold.co/1200x630" };
+		}
+	}),
+);
+---
+
+<section class="projects" id="projects">
+  <div class="container">
+    <h2 class="section-heading sr-only">Featured Projects</h2>
+    <div class="grid">
+      {
+        projects.map((project, index) => (
+          <a
+            href={project.link || "#"}
+            class="project-card"
+            data-scroll-animate="fade-up"
+            data-delay={index * 100}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="card-header">
+              <span class="project-logo">{project.logo}</span>
+              <div class="header-meta">
+                <h3 class="project-title">{project.title}</h3>
+                <span class="project-year">{project.year}</span>
+              </div>
+            </div>
+
+            <div class="card-spacer" />
+
+            <div class="card-footer">
+              <p class="description">{project.description}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects {
+    padding: 5rem 2rem;
+    background: transparent;
+    position: relative;
+  }
+
+  /* .projects::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at 50% 30%,
+        rgba(167, 139, 250, 0.05) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 20% 70%,
+        rgba(139, 92, 246, 0.04) 0%,
+        transparent 40%
+      );
+    pointer-events: none;
+  } */
+
+  /* Restored original dark color palette with purple accents */
+  .section-heading {
+    text-align: center;
+    margin: 0 0 3.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: -0.01em;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+  }
+
+  /* Restored dark background with purple accents and increased height */
+  .project-card {
+    position: relative;
+    background: rgba(25, 20, 35, 0.6);
+    border: 1px solid rgba(167, 139, 250, 0.15);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(16px) saturate(150%);
+    min-height: 520px;
+    padding: 2rem;
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(167, 139, 250, 0.3);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(167, 139, 250, 0.1) inset;
+    background: rgba(25, 20, 35, 0.7);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-logo {
+    font-size: 3rem;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(167, 139, 250, 0.1);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(167, 139, 250, 0.1);
+  }
+
+  .header-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.5rem;
+  }
+
+  .project-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: -0.01em;
+  }
+
+  .project-year {
+    font-size: 0.85rem;
+    color: rgba(167, 139, 250, 0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .card-spacer {
+    flex-grow: 1;
+    min-height: 60px;
+  }
+
+  .card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .description {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Made button smaller and more seamless */
+  .cta-button {
+    padding: 0.5rem 1rem;
+    background: rgba(167, 139, 250, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: fit-content;
+  }
+
+  .cta-button:hover {
+    background: rgba(167, 139, 250, 0.3);
+    border-color: rgba(167, 139, 250, 0.5);
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  @media (max-width: 768px) {
+    .projects {
+      padding: 3.5rem 1rem;
+    }
+
+    .section-heading {
+      font-size: 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .grid {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      min-height: 480px;
+      padding: 1.5rem;
+    }
+
+    .project-logo {
+      width: 70px;
+      height: 70px;
+      font-size: 2.5rem;
+    }
+
+    .project-title {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .projects {
+      padding: 2.5rem 1rem;
+    }
+
+    .section-heading {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .project-card {
+      min-height: 460px;
+      padding: 1.25rem;
+    }
+
+    .project-logo {
+      width: 60px;
+      height: 60px;
+      font-size: 2rem;
+    }
+
+    .card-spacer {
+      min-height: 40px;
+    }
+
+    .description {
+      font-size: 0.9rem;
+    }
+  }
+</style>

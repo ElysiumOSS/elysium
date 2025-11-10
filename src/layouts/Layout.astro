@@ -1,5 +1,24 @@
 ---
+/**
+ * Copyright 2025 Elysium OSS
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import * as S from "@effect/schema/Schema";
+import { SEO } from "astro-seo";
+import PostHog from "../components/posthog-analytics.astro";
+import SmoothScroll from "../components/smooth-scroll.astro";
 import "../styles/global.css";
 
 const Props = S.Struct({
@@ -17,7 +36,7 @@ const {
 } = Astro.props as S.Schema.Type<typeof Props>;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const socialImage = new URL(image, Astro.site);
+const socialImageURL = new URL(image, Astro.site).toString();
 ---
 
 <!doctype html>
@@ -25,57 +44,59 @@ const socialImage = new URL(image, Astro.site);
   <head>
     <meta charset="UTF-8" />
 
-    <!-- Security Headers -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://app.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://app.posthog.com;"
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonicalURL.toString()}
+      openGraph={{
+        basic: {
+          title: title,
+          type: ogType,
+          image: socialImageURL,
+          url: canonicalURL.toString(),
+        },
+        optional: {
+          description: description,
+          siteName: "Elysium",
+          locale: "en_US",
+        },
+        image: {
+          url: socialImageURL,
+          alt: title,
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        site: "@ElysiumOSS",
+        creator: "@ElysiumOSS",
+        title: title,
+        description: description,
+        image: socialImageURL,
+        imageAlt: title,
+      }}
+      extend={{
+        meta: [
+          {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1.0",
+          },
+          { name: "theme-color", content: "#8B5CF6" },
+          {
+            name: "keywords",
+            content:
+              "elysium, open source, development tools, framework, OSS, purple theme, modern development",
+          },
+          { name: "author", content: "Elysium OSS" },
+          { name: "robots", content: "index, follow" },
+          { name: "language", content: "English" },
+          { name: "revisit-after", content: "7 days" },
+        ],
+        link: [
+          { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+          { rel: "apple-touch-icon", href: "/favicon.svg" },
+        ],
+      }}
     />
-    <meta http-equiv="X-Frame-Options" content="DENY" />
-    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta name="Referrer-Policy" content="strict-origin-when-cross-origin" />
-    <meta
-      name="Permissions-Policy"
-      content="geolocation=(), microphone=(), camera=()"
-    />
-
-    <!-- Primary Meta Tags -->
-    <title>{title}</title>
-    <meta name="title" content={title} />
-    <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#8B5CF6" />
-    <link rel="canonical" href={canonicalURL} />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content={ogType} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={socialImage} />
-    <meta property="og:site_name" content="Elysium" />
-    <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={canonicalURL} />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={socialImage} />
-    <meta name="twitter:creator" content="@ElysiumOSS" />
-
-    <!-- Additional SEO Tags -->
-    <meta
-      name="keywords"
-      content="elysium, open source, development tools, framework, OSS, purple theme, modern development"
-    />
-    <meta name="author" content="Elysium OSS" />
-    <meta name="robots" content="index, follow" />
-    <meta name="language" content="English" />
-    <meta name="revisit-after" content="7 days" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
 
     <!-- Structured Data (JSON-LD) -->
     <script
@@ -105,7 +126,10 @@ const socialImage = new URL(image, Astro.site);
     />
 
     <!-- PostHog Analytics -->
-    <script src="@/lib/posthog.ts"></script>
+    <PostHog />
+
+    <!-- Smooth Scrolling -->
+    <SmoothScroll />
   </head>
   <body>
     <div class="background-effects">
@@ -133,79 +157,95 @@ const socialImage = new URL(image, Astro.site);
     height: 100vh;
     z-index: -1;
     overflow: hidden;
+    background: #0a0612;
   }
 
   .blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.3;
+    filter: blur(100px);
+    opacity: 0.4;
+    will-change: transform;
   }
 
   .blob1 {
-    width: 600px;
-    height: 600px;
-    top: -150px;
-    left: -150px;
-    background: linear-gradient(
-      180deg,
-      hsl(var(--color-primary-hsl), 0.5) 0%,
-      hsl(var(--color-secondary-hsl), 0.5) 100%
+    width: 800px;
+    height: 800px;
+    top: -200px;
+    left: -200px;
+    background: radial-gradient(
+      circle,
+      rgba(167, 139, 250, 0.4) 0%,
+      rgba(139, 92, 246, 0.2) 50%,
+      transparent 100%
     );
-    animation: move-blob-1 25s infinite alternate;
+    animation: move-blob-1 25s ease-in-out infinite alternate;
   }
 
   .blob2 {
-    width: 500px;
-    height: 500px;
-    bottom: -200px;
-    right: -200px;
-    background: linear-gradient(
-      180deg,
-      hsl(var(--color-secondary-hsl), 0.5) 0%,
-      hsl(var(--color-accent-hsl), 0.5) 100%
+    width: 700px;
+    height: 700px;
+    bottom: -250px;
+    right: -250px;
+    background: radial-gradient(
+      circle,
+      rgba(139, 92, 246, 0.35) 0%,
+      rgba(124, 58, 237, 0.2) 50%,
+      transparent 100%
     );
-    animation: move-blob-2 20s infinite alternate;
+    animation: move-blob-2 30s ease-in-out infinite alternate;
   }
 
   .blob3 {
-    width: 400px;
-    height: 400px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(
-      180deg,
-      hsl(var(--color-accent-hsl), 0.5) 0%,
-      hsl(var(--color-primary-hsl), 0.5) 100%
+    width: 600px;
+    height: 600px;
+    top: 40%;
+    right: 10%;
+    background: radial-gradient(
+      circle,
+      rgba(167, 139, 250, 0.3) 0%,
+      rgba(139, 92, 246, 0.15) 50%,
+      transparent 100%
     );
-    animation: move-blob-3 30s infinite alternate;
+    animation: move-blob-3 35s ease-in-out infinite alternate;
   }
 
   @keyframes move-blob-1 {
-    from {
+    0% {
       transform: translate(0, 0) scale(1);
     }
-    to {
-      transform: translate(100px, 50px) scale(1.2);
+    50% {
+      transform: translate(150px, 100px) scale(1.2);
+    }
+    100% {
+      transform: translate(50px, 150px) scale(0.9);
     }
   }
 
   @keyframes move-blob-2 {
-    from {
+    0% {
       transform: translate(0, 0) scale(1);
     }
-    to {
-      transform: translate(-80px, -40px) scale(0.8);
+    50% {
+      transform: translate(-120px, -80px) scale(0.85);
+    }
+    100% {
+      transform: translate(-50px, -120px) scale(1.1);
     }
   }
 
   @keyframes move-blob-3 {
-    from {
-      transform: rotate(0deg) scale(1);
+    0% {
+      transform: translate(0, 0) scale(1);
     }
-    to {
-      transform: rotate(180deg) scale(1.1);
+    33% {
+      transform: translate(-100px, 80px) scale(1.15);
+    }
+    66% {
+      transform: translate(80px, -60px) scale(0.9);
+    }
+    100% {
+      transform: translate(-50px, 40px) scale(1.05);
     }
   }
 
@@ -215,9 +255,10 @@ const socialImage = new URL(image, Astro.site);
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
-    opacity: 0.03;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" stitchTiles="stitch" seed="2"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.5"/></svg>');
+    opacity: 0.08;
     pointer-events: none;
+    mix-blend-mode: overlay;
   }
 
   h1,

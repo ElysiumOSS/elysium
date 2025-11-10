@@ -17,51 +17,52 @@
 import { Stringify } from "@/core/helpers/general";
 import { record } from "@elysiajs/opentelemetry";
 import { Elysia } from "elysia";
-import { requireAuth } from "../auth";
 
-export const protectedRoute = new Elysia()
-	.use(requireAuth)
+/**
+ * API information route
+ * Returns general information about the API
+ */
+export const infoRoute = new Elysia()
 	.get(
-		"/example",
-		(context) => {
-			if (!(context as any).publicKey) {
-				context.set.status = 401;
-				return { error: "Unauthorized" };
-			}
-			return record("protected.example.get", () => {
+		"/",
+		() =>
+			record("info.get", () => {
 				return Stringify({
-					message: "You have access!",
-					yourPublicKey: (context as any).publicKey,
+					message: `Information about the API`,
+					status: 200,
+					data: {
+						contact: `example @example.com`,
+						documentationUrl: "https://docs.your-api.com",
+					},
 				});
-			});
-		},
+			}),
 		{
 			detail: {
-				summary: "Protected Example",
-				description: "An example endpoint that requires authentication",
-				tags: ["Protected"],
+				summary: "Get API info",
+				description: "Returns information about the API",
+				tags: ["Info"],
 			},
 		},
 	)
 	.head(
-		"/example",
+		"/",
 		({ set }) =>
-			record("protected.example.head", () => {
+			record("info.head", () => {
 				set.status = 200;
 				return;
 			}),
 		{
 			detail: {
-				summary: "Protected Example HEAD",
-				description: "HEAD for protected example endpoint",
-				tags: ["Protected"],
+				summary: "Info HEAD",
+				description: "HEAD for info endpoint",
+				tags: ["Info"],
 			},
 		},
 	)
 	.options(
-		"/example",
+		"/",
 		() =>
-			record("protected.example.options", () => {
+			record("info.options", () => {
 				return Stringify({
 					message: "CORS preflight response",
 					status: 204,
@@ -70,9 +71,9 @@ export const protectedRoute = new Elysia()
 			}),
 		{
 			detail: {
-				summary: "Protected Example OPTIONS",
-				description: "CORS preflight for protected example",
-				tags: ["Protected"],
+				summary: "Info OPTIONS",
+				description: "CORS preflight for info",
+				tags: ["Info"],
 			},
 		},
 	);

@@ -1,5 +1,5 @@
 /**
- * Copyright 2025 Mike Odnis
+ * Copyright 2025 Elysium OSS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,17 @@
  */
 
 /**
- * @interface AggregateErrorOptions
- * @property {string} [message] - The error message.
- * @property {any} [cause] - The cause of the error.
+ * Returns the base URL for the application.
+ * @returns {string} The base URL.
  */
-export interface AggregateErrorOptions {
-	message?: string;
-	cause?: any;
-	metadata?: any;
-	command: string;
-	includeErrorDetails?: boolean;
-	defaultData?: Record<string, unknown>;
-}
+export const getURL = (): string => {
+	// In a real application, this would be dynamically determined based on environment
+	return "http://localhost:4321";
+};
+
+/**
+ * Stringifies an object with 2-space indentation.
+ * @param {object} o - The object to stringify.
+ * @returns {string} The pretty-printed JSON string.
+ */
+export const Stringify = (o: object): string => JSON.stringify(o, null, 2);

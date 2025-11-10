@@ -1,0 +1,237 @@
+<nav class="navbar" id="main-navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-brand">Elysium</a>
+
+    <div class="nav-links">
+      <a href="/about" class="nav-link">About</a>
+      <a href="/support" class="nav-link">Support</a>
+      <a
+        href="https://github.com/ElysiumOSS"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="nav-link nav-link-cta"
+      >
+        GitHub
+      </a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1.5rem 2rem;
+  }
+
+  .navbar.scrolled {
+    top: 1.5rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    max-width: 900px;
+    padding: 0.75rem 1.5rem;
+    background: rgba(15, 10, 26, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 100px;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .nav-brand {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+  }
+
+  .nav-brand:hover {
+    color: rgba(167, 139, 250, 1);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      rgba(167, 139, 250, 1),
+      rgba(139, 92, 246, 1)
+    );
+    transition: width 0.2s ease;
+    border-radius: 2px;
+  }
+
+  .nav-link:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .nav-link-cta {
+    padding: 0.5rem 1.25rem;
+    background: linear-gradient(
+      135deg,
+      rgba(167, 139, 250, 0.15),
+      rgba(139, 92, 246, 0.15)
+    );
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    border-radius: 100px;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .nav-link-cta::after {
+    display: none;
+  }
+
+  .nav-link-cta:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(167, 139, 250, 0.25),
+      rgba(139, 92, 246, 0.25)
+    );
+    border-color: rgba(167, 139, 250, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .navbar.scrolled .nav-links {
+    gap: 1.5rem;
+  }
+
+  .navbar.scrolled .nav-link {
+    font-size: 0.9rem;
+  }
+
+  .navbar.scrolled .nav-link-cta {
+    padding: 0.4rem 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 1rem 1.5rem;
+    }
+
+    .navbar.scrolled {
+      max-width: calc(100% - 2rem);
+      padding: 0.75rem 1.25rem;
+    }
+
+    .nav-links {
+      gap: 1rem;
+    }
+
+    .navbar.scrolled .nav-links {
+      gap: 0.75rem;
+    }
+
+    .nav-link {
+      font-size: 0.85rem;
+    }
+
+    .navbar.scrolled .nav-link {
+      font-size: 0.8rem;
+    }
+
+    .nav-link-cta {
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .navbar.scrolled .nav-link-cta {
+      padding: 0.35rem 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nav-brand {
+      font-size: 1rem;
+    }
+
+    .nav-links {
+      gap: 0.75rem;
+    }
+
+    .navbar.scrolled .nav-links {
+      gap: 0.5rem;
+    }
+
+    .nav-link:not(.nav-link-cta) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function initNavbar() {
+    const navbar = document.getElementById("main-navbar");
+    if (!navbar) return;
+
+    let lastScroll = 0;
+    const scrollThreshold = 100;
+
+    function handleScroll() {
+      const currentScroll = window.scrollY;
+
+      if (currentScroll > scrollThreshold) {
+        navbar && navbar.classList.add("scrolled");
+      } else {
+        navbar && navbar.classList.remove("scrolled");
+      }
+
+      lastScroll = currentScroll;
+    }
+
+    let ticking = false;
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    handleScroll();
+  }
+
+  initNavbar();
+
+  document.addEventListener("astro:page-load", initNavbar);
+</script>

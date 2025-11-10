@@ -17,51 +17,57 @@
 import { Stringify } from "@/core/helpers/general";
 import { record } from "@elysiajs/opentelemetry";
 import { Elysia } from "elysia";
-import { requireAuth } from "../auth";
 
-export const protectedRoute = new Elysia()
-	.use(requireAuth)
+/**
+ * The current application version, loaded from package.json.
+ * @type {string}
+ */
+const version: string = await import("../../../../package.json")
+	.then((pkg) => pkg.version)
+	.catch(() => "N/A");
+
+/**
+ * Version information route
+ * Returns the current API version
+ */
+export const versionRoute = new Elysia()
 	.get(
-		"/example",
-		(context) => {
-			if (!(context as any).publicKey) {
-				context.set.status = 401;
-				return { error: "Unauthorized" };
-			}
-			return record("protected.example.get", () => {
+		"/",
+		async () =>
+			record("version.get", async () => {
+				const appVersion = version;
 				return Stringify({
-					message: "You have access!",
-					yourPublicKey: (context as any).publicKey,
+					version: appVersion,
+					status: 200,
 				});
-			});
-		},
+			}),
 		{
 			detail: {
-				summary: "Protected Example",
-				description: "An example endpoint that requires authentication",
-				tags: ["Protected"],
+				summary: "Get API version",
+				description: "Returns the current API version",
+				tags: ["Info"],
 			},
 		},
 	)
 	.head(
-		"/example",
+		"/",
 		({ set }) =>
-			record("protected.example.head", () => {
+			record("version.head", () => {
 				set.status = 200;
 				return;
 			}),
 		{
 			detail: {
-				summary: "Protected Example HEAD",
-				description: "HEAD for protected example endpoint",
-				tags: ["Protected"],
+				summary: "Version HEAD",
+				description: "HEAD for version endpoint",
+				tags: ["Info"],
 			},
 		},
 	)
 	.options(
-		"/example",
+		"/",
 		() =>
-			record("protected.example.options", () => {
+			record("version.options", () => {
 				return Stringify({
 					message: "CORS preflight response",
 					status: 204,
@@ -70,9 +76,9 @@ export const protectedRoute = new Elysia()
 			}),
 		{
 			detail: {
-				summary: "Protected Example OPTIONS",
-				description: "CORS preflight for protected example",
-				tags: ["Protected"],
+				summary: "Version OPTIONS",
+				description: "CORS preflight for version",
+				tags: ["Info"],
 			},
 		},
 	);

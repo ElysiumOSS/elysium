@@ -1,9 +1,5 @@
-import type { ColorKey, LogData, LoggerOptions } from "@/core/types/logger";
-import { LogLevel } from "@/core/types/logger";
-import { Stringify } from "@/core/utils/general";
-
 /**
- * Copyright 2025 Mike Odnis
+ * Copyright 2025 Elysium OSS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +13,10 @@ import { Stringify } from "@/core/utils/general";
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { Stringify } from "@/core/helpers/general";
+import type { ColorKey, LogData, LoggerOptions } from "@/core/types/logger";
+import { LogLevel } from "@/core/types/logger";
 
 /**
  * @fileoverview A comprehensive logging utility for both client and server environments.

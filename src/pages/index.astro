@@ -1,19 +1,358 @@
 ---
-import About from "../components/About.astro";
-import Footer from "../components/Footer.astro";
-import Hero from "../components/Hero.astro";
-import ProjectGrid from "../components/ProjectGrid.astro";
-import Sponsors from "../components/Sponsors.astro";
-import Layout from "../layouts/Layout.astro";
+/**
+ * Copyright 2025 Elysium OSS
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import Footer from "@/components/footer.astro";
+import Navbar from "@/components/navbar.astro";
+import ProjectGrid from "@/components/project-grid.astro";
+import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout
   title="Elysium - Open Source Development Framework & Tools"
   description="Elysium is a modern open-source development framework and toolkit. A sacred realm for creation, exploration, and continuous development. Built by the community, for the community. Join us on GitHub."
 >
-  <Hero />
+  <Navbar />
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="hero-title-main">Building the Future</span>
+          <span class="hero-title-sub">One Project at a Time</span>
+        </h1>
+        <p class="hero-description">
+          A sacred realm for creation and exploration. We build meaningful
+          open-source tools that empower developers and communities worldwide.
+        </p>
+        <div class="hero-actions">
+          <a
+            href="https://github.com/ElysiumOSS"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cta-primary"
+          >
+            <span>Explore Projects</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.33334 8H12.6667M12.6667 8L8.66668 4M12.6667 8L8.66668 12"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <a href="/about" class="cta-secondary"> Learn More </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="visual-orb"></div>
+        <div class="visual-grid"></div>
+      </div>
+    </div>
+  </section>
+
   <ProjectGrid />
-  <About />
-  <Sponsors />
   <Footer />
 </Layout>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 2rem 4rem;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* background: radial-gradient(
+        circle at 30% 20%,
+        rgba(167, 139, 250, 0.08) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 70% 80%,
+        rgba(139, 92, 246, 0.06) 0%,
+        transparent 40%
+      ); */
+    backdrop-filter: blur(1px);
+    pointer-events: none;
+  }
+
+  .hero-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    background: rgba(10, 6, 18, 0.4);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(167, 139, 250, 0.1);
+    border-radius: 24px;
+    padding: 4rem;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .hero-content {
+    max-width: 600px;
+  }
+
+  .hero-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title-main {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-title-sub {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    background: linear-gradient(
+      135deg,
+      rgba(167, 139, 250, 1) 0%,
+      rgba(139, 92, 246, 0.8) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-description {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 2.5rem;
+    max-width: 540px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-primary,
+  .cta-secondary {
+    padding: 0.875rem 1.75rem;
+    border-radius: 100px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+  }
+
+  .cta-primary {
+    background: linear-gradient(
+      135deg,
+      rgba(167, 139, 250, 1),
+      rgba(139, 92, 246, 1)
+    );
+    color: #fff;
+    box-shadow:
+      0 4px 16px rgba(167, 139, 250, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  }
+
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 24px rgba(167, 139, 250, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  }
+
+  .cta-primary svg {
+    transition: transform 0.3s ease;
+  }
+
+  .cta-primary:hover svg {
+    transform: translateX(4px);
+  }
+
+  .cta-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(167, 139, 250, 0.25);
+    backdrop-filter: blur(10px);
+  }
+
+  .cta-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(167, 139, 250, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .hero-visual {
+    position: relative;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .visual-orb {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(167, 139, 250, 0.2) 0%,
+      transparent 70%
+    );
+    filter: blur(40px);
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .visual-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(167, 139, 250, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(167, 139, 250, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle, black 30%, transparent 70%);
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-20px) scale(1.05);
+    }
+  }
+
+  @media (max-width: 968px) {
+    .hero {
+      min-height: auto;
+      padding: 6rem 1.5rem 3rem;
+    }
+
+    .hero-container {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      padding: 3rem 2rem;
+    }
+
+    .hero-visual {
+      height: 300px;
+      order: -1;
+    }
+
+    .visual-orb {
+      width: 280px;
+      height: 280px;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      padding: 5rem 1rem 2rem;
+    }
+
+    .hero-container {
+      padding: 2rem 1.5rem;
+      border-radius: 16px;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .hero-visual {
+      height: 200px;
+    }
+
+    .visual-orb {
+      width: 200px;
+      height: 200px;
+    }
+  }
+</style>
+
+<script>
+  import * as Sentry from "@sentry/astro";
+
+  function handleClick() {
+    // Send a log before throwing the error
+    Sentry.logger.info(
+      Sentry.logger.fmt`User ${"sentry-test"} triggered test error button`,
+      {
+        action: "test_error_button_click",
+      }
+    );
+    throw new Error("This is a test error from Elysium");
+  }
+
+  const button = document.querySelector("#sentry-test-button");
+  if (button) {
+    button.addEventListener("click", handleClick);
+  }
+</script>

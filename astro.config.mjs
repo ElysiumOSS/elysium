@@ -3,35 +3,36 @@
 import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
 import sentry from "@sentry/astro";
-import { defineConfig } from "astro/config";
-
 import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
+import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "server",
+	output: "server",
 
-  adapter: node({
-      mode: "standalone",
+	adapter: node({
+		mode: "standalone",
 	}),
 
-  site: "https://elysium.tools",
+	site: "https://elysium.tools",
 
-  integrations: [
-      sitemap(),
-      sentry({
-          dsn: "YOUR_SENTRY_DSN_HERE",
-          sourceMapsUploadOptions: {
-              project: "your-sentry-project-name",
-              authToken: "YOUR_SENTRY_AUTH_TOKEN_HERE",
-          },
-          tracesSampleRate: 1.0,
-          replaysSessionSampleRate: 0.1,
-          replaysOnErrorSampleRate: 1.0,
-      }),
+	integrations: [
+		sitemap(),
+		icon({
+			iconDir: "src/icons",
+			include: {
+				mdi: ["*"], // Include all Material Design Icons
+			},
+		}),
+		sentry({
+			project: "elysium",
+			org: "womb0comb0",
+			authToken: process.env.SENTRY_AUTH_TOKEN,
+		}),
 	],
 
-  vite: {
-    plugins: [tailwindcss()],
-  },
+	vite: {
+		plugins: [tailwindcss()],
+	},
 });
