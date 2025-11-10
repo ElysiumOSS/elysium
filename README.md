@@ -128,27 +128,27 @@ The platform operates on a Serverless-First principle, leveraging Vercel for dep
 
 ```mermaid
 graph TD
-    A[User Browser] -- Requests --> B(Vercel CDN/Edge)
-    B -- Static Assets/SSR Pages --> A
-    B -- API Requests --> C(Vercel Serverless Function: ElysiaJS API)
-    C -- Data Storage (Planned) --> D[Database / External Services]
-    C -- Monitoring --> E[Sentry / OpenTelemetry]
-    C -- Analytics --> F[PostHog]
+  A[User Browser] -->|Requests| B[Vercel CDN & Edge]
+  B -->|Static Assets and SSR Pages| A
+  B -->|API Requests| C[Vercel Serverless Function: ElysiaJS API]
+  C -->|Planned data storage| D[Database and External Services]
+  C -->|Monitoring| E[Sentry and OpenTelemetry]
+  C -->|Analytics| F[PostHog]
 
-    subgraph Frontend (Astro)
-        B
-    end
+  subgraph FE["Frontend (Astro)"]
+    B
+  end
 
-    subgraph Backend (ElysiaJS)
-        C
-    end
+  subgraph BE["Backend (ElysiaJS)"]
+    C
+  end
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#ccf,stroke:#333,stroke-width:2px
-    style D fill:#fcf,stroke:#333,stroke-width:2px
-    style E fill:#cff,stroke:#333,stroke-width:2px
-    style F fill:#cfc,stroke:#333,stroke-width:2px
+  style A fill:#f9f,stroke:#333,stroke-width:2px
+  style B fill:#bbf,stroke:#333,stroke-width:2px
+  style C fill:#ccf,stroke:#333,stroke-width:2px
+  style D fill:#fcf,stroke:#333,stroke-width:2px
+  style E fill:#cff,stroke:#333,stroke-width:2px
+  style F fill:#cfc,stroke:#333,stroke-width:2px
 ```
 
 **Explanation of Flow:**
