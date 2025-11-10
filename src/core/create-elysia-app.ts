@@ -14,19 +14,6 @@
  * limitations under the License.
  */
 
-import { cors } from "@elysiajs/cors";
-import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
-import { opentelemetry } from "@elysiajs/opentelemetry";
-import type { ServerTimingOptions } from "@elysiajs/server-timing";
-import { serverTiming } from "@elysiajs/server-timing";
-import { Elysia } from "elysia";
-import {
-	DefaultContext,
-	type Generator,
-	type Options as RateLimitOptions,
-	rateLimit,
-} from "elysia-rate-limit";
-import { elysiaHelmet } from "elysiajs-helmet";
 import {
 	batchSpanProcessor,
 	otelResource,
@@ -36,6 +23,19 @@ import { getURL, Stringify } from "@/core/helpers/general";
 import { ip } from "@/core/helpers/ip-plugin";
 import logger from "@/core/helpers/utils";
 import { createErrorHandler } from "@/core/middleware-handlers/middleware";
+import { cors } from "@elysiajs/cors";
+import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
+import { opentelemetry } from "@elysiajs/opentelemetry";
+import type { ServerTimingOptions } from "@elysiajs/server-timing";
+import { serverTiming } from "@elysiajs/server-timing";
+import { Elysia } from "elysia";
+import {
+	DefaultContext,
+	rateLimit,
+	type Generator,
+	type Options as RateLimitOptions,
+} from "elysia-rate-limit";
+import { elysiaHelmet } from "elysiajs-helmet";
 
 /**
  * @interface ElysiaApiConfig

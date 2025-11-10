@@ -1,11 +1,11 @@
 // @ts-check
 
-import vercel from "@astrojs/vercel";
 import sitemap from "@astrojs/sitemap";
+import vercel from "@astrojs/vercel";
 import sentry from "@sentry/astro";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
 import icon from "astro-icon";
+import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
