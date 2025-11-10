@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { Elysia } from "elysia";
 import { requireAuth } from "@/api/routes/auth/index";
 import { Stringify } from "@/core/helpers/general";
 import { record } from "@/core/helpers/telemetry";
+import { Elysia } from "elysia";
 
 export const protectedRoute = new Elysia()
 	.use(requireAuth)

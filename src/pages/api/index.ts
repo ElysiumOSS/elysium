@@ -23,7 +23,6 @@ import { swagger } from "@elysiajs/swagger";
 
 const app = createElysiaApp({
 	prefix: "",
-	enableTelemetry: false, // Disable for Vercel compatibility
 })
 	.use(authRoute)
 	.use(protectedRoute)
@@ -60,7 +59,7 @@ security, observability, and more.
 				},
 				externalDocs: {
 					description: "Find more info here",
-					url: "https://github.com/ElysiumOSS/elysium",
+					url: "https://github.com/your-org/your-repo",
 				},
 				tags: [
 					{
@@ -99,10 +98,4 @@ security, observability, and more.
 		}),
 	);
 
-// Export individual HTTP method handlers for Astro
-export const GET = (context: { request: Request }) => app.handle(context.request);
-export const POST = (context: { request: Request }) => app.handle(context.request);
-export const PUT = (context: { request: Request }) => app.handle(context.request);
-export const PATCH = (context: { request: Request }) => app.handle(context.request);
-export const DELETE = (context: { request: Request }) => app.handle(context.request);
-export const ALL = (context: { request: Request }) => app.handle(context.request);
+export const ALL = app.handle;

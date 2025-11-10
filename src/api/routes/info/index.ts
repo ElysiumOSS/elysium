@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { Elysia } from "elysia";
 import { Stringify } from "@/core/helpers/general";
 import { record } from "@/core/helpers/telemetry";
+import { Elysia } from "elysia";
 
 /**
  * API information route

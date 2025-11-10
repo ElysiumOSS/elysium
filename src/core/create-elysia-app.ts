@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-import {
-	batchSpanProcessor,
-	otelResource,
-	permission,
-} from "@/core/config/constants";
+import { permission } from "@/core/config/constants";
 import { getURL, Stringify } from "@/core/helpers/general";
 import { ip } from "@/core/helpers/ip-plugin";
 import {
@@ -28,8 +24,6 @@ import {
 import logger from "@/core/helpers/utils";
 import { createErrorHandler } from "@/core/middleware-handlers/middleware";
 import { cors } from "@elysiajs/cors";
-import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
-import { opentelemetry } from "@elysiajs/opentelemetry";
 import type { ServerTimingOptions } from "@elysiajs/server-timing";
 import { serverTiming } from "@elysiajs/server-timing";
 import { Elysia } from "elysia";
@@ -85,33 +79,15 @@ export interface ElysiaApiConfig {
 	serverTiming?: ServerTimingOptions["trace"];
 
 	/**
-	 * Whether to enable OpenTelemetry tracing.
-	 * @default true (enabled only in non-Vercel environments)
-	 * @see https://opentelemetry.io/docs/
-	 */
-	enableTelemetry?: boolean;
-
-	/**
-	 * OpenTelemetry configuration.
-	 * Uses the same options as the @elysiajs/opentelemetry plugin.
-	 * @see https://elysiajs.com/plugins/opentelemetry.html
-	 */
-	telemetry?: Partial<ElysiaOpenTelemetryOptions>;
-
-	/**
 	 * Custom error handler.
 	 * @param context - Contains `code`, `error`, and response `set` modifier
 	 * @returns {any}
 	 * @example
-	 *   * errorHandler: ({ code, error, set }) => { set.status = 404; return {...}; }
+	 *   * errorHandler: (error) => { return { error: "...", status: 500 }; }
 	 * ```
 	 * @throws Error
 	 */
-	errorHandler?: (context: {
-		code: string;
-		error: Error | unknown;
-		set: any;
-	}) => any;
+	errorHandler?: (error: unknown) => any;
 }
 
 /**
@@ -169,7 +145,6 @@ const DEFAULT_CONFIG: Partial<ElysiaApiConfig> = {
 		mapResponse: true,
 		total: true,
 	},
-	enableTelemetry: true,
 };
 
 /**
@@ -263,15 +238,6 @@ export function createElysiaApp(config: ElysiaApiConfig) {
 		)
 		.use(securityHeaders(mergedConfig.security))
 		.use(ip())
-		.use(
-			// Only use OpenTelemetry in local development
-			mergedConfig.enableTelemetry && batchSpanProcessor
-				? opentelemetry({
-						resource: otelResource,
-						spanProcessors: [batchSpanProcessor],
-					})
-				: new Elysia(),
-		)
 		.use(
 			serverTiming({
 				trace: mergedConfig.serverTiming,
