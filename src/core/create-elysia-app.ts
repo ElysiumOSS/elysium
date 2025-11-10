@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-import { batchSpanProcessor, otelResource, permission } from "@/core/config/constants";
-import { getURL, Stringify } from "@/core/helpers/general";
-import logger from "@/core/helpers/utils";
-import { createErrorHandler } from "@/core/middleware-handlers/middleware";
 import { cors } from "@elysiajs/cors";
 import type { ElysiaOpenTelemetryOptions } from "@elysiajs/opentelemetry";
 import { opentelemetry } from "@elysiajs/opentelemetry";
@@ -27,12 +23,20 @@ import type { SocketAddress } from "bun";
 import { Elysia } from "elysia";
 import { ip } from "elysia-ip";
 import {
-    DefaultContext,
-    rateLimit,
-    type Generator,
-    type Options as RateLimitOptions,
+	DefaultContext,
+	type Generator,
+	type Options as RateLimitOptions,
+	rateLimit,
 } from "elysia-rate-limit";
 import { elysiaHelmet } from "elysiajs-helmet";
+import {
+	batchSpanProcessor,
+	otelResource,
+	permission,
+} from "@/core/config/constants";
+import { getURL, Stringify } from "@/core/helpers/general";
+import logger from "@/core/helpers/utils";
+import { createErrorHandler } from "@/core/middleware-handlers/middleware";
 
 /**
  * @interface ElysiaApiConfig

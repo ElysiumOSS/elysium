@@ -22,17 +22,17 @@ import SmoothScroll from "../components/smooth-scroll.astro";
 import "../styles/global.css";
 
 const Props = S.Struct({
-  title: S.String,
-  description: S.String,
-  image: S.optional(S.String),
-  ogType: S.optional(S.String),
+	title: S.String,
+	description: S.String,
+	image: S.optional(S.String),
+	ogType: S.optional(S.String),
 });
 
 const {
-  title,
-  description,
-  image = "/favicon.svg",
-  ogType = "website",
+	title,
+	description,
+	image = "/assets/images/og.jpg",
+	ogType = "website",
 } = Astro.props as S.Schema.Type<typeof Props>;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -81,6 +81,16 @@ const socialImageURL = new URL(image, Astro.site).toString();
             content: "width=device-width, initial-scale=1.0",
           },
           { name: "theme-color", content: "#8B5CF6" },
+          { name: "mobile-web-app-capable", content: "yes" },
+          { name: "apple-mobile-web-app-capable", content: "yes" },
+          {
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "black-translucent",
+          },
+          { name: "apple-mobile-web-app-title", content: "Elysium" },
+          { name: "application-name", content: "Elysium" },
+          { name: "msapplication-TileColor", content: "#8B5CF6" },
+          { name: "msapplication-config", content: "/browserconfig.xml" },
           {
             name: "keywords",
             content:
@@ -93,7 +103,18 @@ const socialImageURL = new URL(image, Astro.site).toString();
         ],
         link: [
           { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
-          { rel: "apple-touch-icon", href: "/favicon.svg" },
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "192x192",
+            href: "/assets/images/logo-192.png",
+          },
+          {
+            rel: "apple-touch-icon",
+            sizes: "180x180",
+            href: "/assets/images/logo-192.png",
+          },
+          { rel: "manifest", href: "/manifest.json" },
         ],
       }}
     />
@@ -107,7 +128,7 @@ const socialImageURL = new URL(image, Astro.site).toString();
         name: "Elysium",
         description: description,
         url: "https://elysium.tools",
-        logo: "https://elysium.tools/favicon.svg",
+        logo: "https://elysium.tools/favicon.ico",
         sameAs: [
           "https://github.com/ElysiumOSS",
           "https://github.com/ElysiumOSS/elysium",
@@ -279,3 +300,5 @@ const socialImageURL = new URL(image, Astro.site).toString();
     cursor: pointer;
   }
 </style>
+
+<script is:inline src="/sw-register.js"></script>

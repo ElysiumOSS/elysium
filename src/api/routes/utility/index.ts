@@ -31,4 +31,3 @@ export const utilityRoute = new Elysia()
 	.group("/version", (app) => app.use(versionRoute))
 	.group("/info", (app) => app.use(infoRoute))
 	.group("/health", (app) => app.use(healthRoute));
-

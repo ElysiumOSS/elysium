@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { Stringify } from "@/core/helpers/general";
 import { record } from "@elysiajs/opentelemetry";
 import { Elysia } from "elysia";
+import { Stringify } from "@/core/helpers/general";
 
 /**
  * Health check route

@@ -1,6 +1,9 @@
 <nav class="navbar" id="main-navbar">
   <div class="nav-container">
-    <a href="/" class="nav-brand">Elysium</a>
+    <a href="/" class="nav-brand">
+      <img src="/assets/images/logo.png" alt="Elysium Logo" class="nav-logo" />
+      <span>Elysium</span>
+    </a>
 
     <div class="nav-links">
       <a href="/about" class="nav-link">About</a>
@@ -53,16 +56,29 @@
   }
 
   .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 1.25rem;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.95);
     text-decoration: none;
     letter-spacing: 0.05em;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+  }
+
+  .nav-logo {
+    height: 24px;
+    width: auto;
+    transition: transform 0.2s ease;
   }
 
   .nav-brand:hover {
     color: rgba(167, 139, 250, 1);
+  }
+
+  .nav-brand:hover .nav-logo {
+    transform: scale(1.05);
   }
 
   .nav-links {
@@ -181,6 +197,10 @@
   @media (max-width: 480px) {
     .nav-brand {
       font-size: 1rem;
+    }
+
+    .nav-logo {
+      height: 20px;
     }
 
     .nav-links {
