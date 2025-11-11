@@ -6,7 +6,7 @@
  * for the Elysium web application.
  */
 
-const CACHE_VERSION = "elysium-v1.0.0";
+const CACHE_VERSION = "elysium-v1.0.1";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DYNAMIC_CACHE = `${CACHE_VERSION}-dynamic`;
 const IMAGE_CACHE = `${CACHE_VERSION}-images`;
@@ -108,7 +108,7 @@ self.addEventListener("fetch", (event) => {
 		return;
 	}
 
-	// Handle image requests
+	// Handle image requests with Cache-First
 	if (request.destination === "image") {
 		event.respondWith(
 			caches
@@ -134,8 +134,54 @@ self.addEventListener("fetch", (event) => {
 		return;
 	}
 
-	// Handle all other requests with Cache-First strategy for static assets
-	// and Network-First for dynamic content
+	// Handle CSS and JS files with Network-First strategy to prevent blank pages
+	if (
+		request.destination === "style" ||
+		request.destination === "script" ||
+		url.pathname.endsWith(".css") ||
+		url.pathname.endsWith(".js")
+	) {
+		event.respondWith(
+			fetch(request)
+				.then((response) => {
+					// Only cache successful responses
+					if (response && response.status === 200) {
+						return caches.open(STATIC_CACHE).then((cache) => {
+							cache.put(request, response.clone());
+							return response;
+						});
+					}
+					return response;
+				})
+				.catch(() => {
+					// Fallback to cache if network fails
+					return caches.match(request);
+				}),
+		);
+		return;
+	}
+
+	// Handle HTML documents with Network-First strategy
+	if (request.destination === "document") {
+		event.respondWith(
+			fetch(request)
+				.then((response) => {
+					return caches.open(DYNAMIC_CACHE).then((cache) => {
+						cache.put(request, response.clone());
+						limitCacheSize(DYNAMIC_CACHE, MAX_DYNAMIC_CACHE_SIZE);
+						return response;
+					});
+				})
+				.catch(() => {
+					return caches.match(request).then((cachedResponse) => {
+						return cachedResponse || caches.match("/");
+					});
+				}),
+		);
+		return;
+	}
+
+	// Handle other static assets with Cache-First
 	const isStaticAsset = STATIC_ASSETS.some(
 		(asset) => url.pathname === asset || url.pathname.startsWith("/assets/"),
 	);
