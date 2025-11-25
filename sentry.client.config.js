@@ -30,6 +30,7 @@ if (!sentryDsn) {
 	// Initialize Sentry
 	Sentry.init({
 		dsn: sentryDsn,
+        tunnel: "/api/sentry-tunnel",
 
 		// Add optional integrations for additional features
 		integrations: [
