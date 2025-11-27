@@ -38,7 +38,7 @@ export const GET: APIRoute = async ({ url }) => {
 			fetchOptions: { headers: { "user-agent": userAgent } },
 		});
 		
-		const imageUrl = result.ogImage?.[0]?.url || "https://placehold.co/48x48";
+		const imageUrl = result.ogImage?.[0]?.url || "https://placehold.co/1200x630";
 		
 		return new Response(
 			JSON.stringify({ imageUrl }),
@@ -52,9 +52,9 @@ export const GET: APIRoute = async ({ url }) => {
 	} catch (error) {
 		console.error("Error fetching image link:", error);
 		return new Response(
-			JSON.stringify({ error: "Error fetching Open Graph image." }),
+			JSON.stringify({ imageUrl: "https://placehold.co/1200x630" }),
 			{
-				status: 500,
+				status: 200,
 				headers: {
 					"Content-Type": "application/json",
 				},
